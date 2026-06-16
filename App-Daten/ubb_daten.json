@@ -1,6 +1,6 @@
 {
   "backupVersion": 1,
-  "erstellt": "2026-06-16T17:34:10.488Z",
+  "erstellt": "2026-06-16T17:42:19.300Z",
   "app": "UBB Begehungsprotokoll",
   "storageKey": "ubb_html_app_04",
   "daten": {
@@ -88,6 +88,6 @@
       "workMail": "marvin.hohmann@ptb-ingenieure.de",
       "apiKeySaved": false
     },
-    "activeInspectionId": "mqgkda7gpaq3zb"
+    "activeInspectionId": null
   }
 }
