@@ -2,8 +2,6 @@ name: Protokoll in DOCX und PDF umwandeln
 
 on:
   push:
-    paths:
-      - 'UBÜ Protokolle/**/protokoll.html'
   workflow_dispatch:
 
 permissions:
@@ -19,33 +17,63 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Relevante Protokoll-HTML-Dateien ermitteln
+        id: findfiles
+        shell: bash
+        run: |
+          set -e
+
+          FILE_LIST="/tmp/protokolle.txt"
+          : > "$FILE_LIST"
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Manueller Lauf: alle protokoll.html-Dateien werden verarbeitet."
+            find "UBÜ Protokolle" -type f -name "protokoll.html" >> "$FILE_LIST" || true
+          else
+            echo "Push-Lauf: nur neu/geänderte protokoll.html-Dateien werden verarbeitet."
+            git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" \
+              | grep '^UBÜ Protokolle/.*/protokoll\.html$' >> "$FILE_LIST" || true
+          fi
+
+          echo "Gefundene Dateien:"
+          cat "$FILE_LIST" || true
+
+          if [ ! -s "$FILE_LIST" ]; then
+            echo "has_files=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_files=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Keine Protokolle gefunden
+        if: steps.findfiles.outputs.has_files != 'true'
+        run: |
+          echo "Keine neue oder vorhandene protokoll.html gefunden. Ende."
+
       - name: LibreOffice installieren
+        if: steps.findfiles.outputs.has_files == 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y libreoffice libreoffice-writer fonts-dejavu fonts-liberation
 
       - name: HTML-Protokolle in DOCX und PDF umwandeln
+        if: steps.findfiles.outputs.has_files == 'true'
         shell: bash
         run: |
           set -e
-          shopt -s globstar nullglob
 
-          files=(UBÜ\ Protokolle/**/protokoll.html)
+          while IFS= read -r html; do
+            [ -z "$html" ] && continue
 
-          if [ ${#files[@]} -eq 0 ]; then
-            echo "Keine protokoll.html gefunden."
-            exit 0
-          fi
-
-          for html in "${files[@]}"; do
             dir="$(dirname "$html")"
             echo "Konvertiere: $html"
+            echo "Zielordner: $dir"
 
             libreoffice --headless --convert-to docx --outdir "$dir" "$html"
             libreoffice --headless --convert-to pdf --outdir "$dir" "$html"
-          done
+          done < /tmp/protokolle.txt
 
       - name: DOCX und PDF ins Repository schreiben
+        if: steps.findfiles.outputs.has_files == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
