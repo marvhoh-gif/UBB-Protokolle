@@ -1,0 +1,61 @@
+name: Protokoll in DOCX und PDF umwandeln
+
+on:
+  push:
+    paths:
+      - 'UBÜ Protokolle/**/protokoll.html'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository laden
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: LibreOffice installieren
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libreoffice libreoffice-writer fonts-dejavu fonts-liberation
+
+      - name: HTML-Protokolle in DOCX und PDF umwandeln
+        shell: bash
+        run: |
+          set -e
+          shopt -s globstar nullglob
+
+          files=(UBÜ\ Protokolle/**/protokoll.html)
+
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "Keine protokoll.html gefunden."
+            exit 0
+          fi
+
+          for html in "${files[@]}"; do
+            dir="$(dirname "$html")"
+            echo "Konvertiere: $html"
+
+            libreoffice --headless --convert-to docx --outdir "$dir" "$html"
+            libreoffice --headless --convert-to pdf --outdir "$dir" "$html"
+          done
+
+      - name: DOCX und PDF ins Repository schreiben
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add "UBÜ Protokolle"
+
+          if git diff --cached --quiet; then
+            echo "Keine neuen DOCX/PDF-Dateien."
+            exit 0
+          fi
+
+          git commit -m "Protokolle als DOCX und PDF erzeugen"
+          git push
