@@ -1,6 +1,6 @@
 {
   "backupVersion": 2,
-  "erstellt": "2026-06-17T12:52:54.483Z",
+  "erstellt": "2026-06-17T12:53:16.805Z",
   "app": "UBB Begehungsprotokoll",
   "storageKey": "ubb_html_app_04",
   "fotosEnthalten": false,
@@ -81,6 +81,28 @@
         ],
         "findings": [],
         "status": "offen"
+      },
+      {
+        "id": "mqi2nb3yceaznq",
+        "projectId": "mqi2m7r689j2u5",
+        "topic": "Baustellenbegehung",
+        "date": "2026-06-17",
+        "time": "14:52",
+        "weather": "23 °C, bedeckt, trocken, Wind 12 km/h",
+        "protocolLead": "Marvin Hohmann",
+        "remark": "",
+        "participants": [
+          "mqggoatazqn06a"
+        ],
+        "photos": [
+          {
+            "name": "image.jpg",
+            "data": "",
+            "caption": ""
+          }
+        ],
+        "findings": [],
+        "status": "offen"
       }
     ],
     "settings": {
@@ -90,6 +112,6 @@
       "workMail": "marvin.hohmann@ptb-ingenieure.de",
       "apiKeySaved": false
     },
-    "activeInspectionId": "mqi2mv398mssbp"
+    "activeInspectionId": "mqi2nb3yceaznq"
   }
 }
