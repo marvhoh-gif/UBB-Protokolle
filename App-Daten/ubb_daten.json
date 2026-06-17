@@ -1,6 +1,6 @@
 {
   "backupVersion": 2,
-  "erstellt": "2026-06-17T12:48:57.323Z",
+  "erstellt": "2026-06-17T12:52:54.483Z",
   "app": "UBB Begehungsprotokoll",
   "storageKey": "ubb_html_app_04",
   "fotosEnthalten": false,
@@ -44,15 +44,28 @@
           "mqggoatazqn06a"
         ],
         "open": false
+      },
+      {
+        "id": "mqi2m7r689j2u5",
+        "name": "Gerstungen",
+        "number": "",
+        "client": "",
+        "location": "",
+        "notes": "",
+        "distribution": [],
+        "standardParticipants": [
+          "mqggoatazqn06a"
+        ],
+        "open": false
       }
     ],
     "inspections": [
       {
-        "id": "mqi2hqefgo4xmc",
+        "id": "mqi2mv398mssbp",
         "projectId": "mqh08dnpaf723w",
         "topic": "Baustellenbegehung",
         "date": "2026-06-17",
-        "time": "14:48",
+        "time": "14:52",
         "weather": "23 °C, bedeckt, trocken, Wind 12 km/h",
         "protocolLead": "Marvin Hohmann",
         "remark": "",
@@ -77,6 +90,6 @@
       "workMail": "marvin.hohmann@ptb-ingenieure.de",
       "apiKeySaved": false
     },
-    "activeInspectionId": "mqi2hqefgo4xmc"
+    "activeInspectionId": "mqi2mv398mssbp"
   }
 }
