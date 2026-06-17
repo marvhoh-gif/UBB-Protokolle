@@ -1,6 +1,6 @@
 {
   "backupVersion": 2,
-  "erstellt": "2026-06-17T12:08:55.369Z",
+  "erstellt": "2026-06-17T12:25:35.366Z",
   "app": "UBB Begehungsprotokoll",
   "storageKey": "ubb_html_app_04",
   "fotosEnthalten": false,
@@ -48,11 +48,11 @@
     ],
     "inspections": [
       {
-        "id": "mqi0ztpn6090hy",
+        "id": "mqi1na5wwons30",
         "projectId": "mqh08dnpaf723w",
         "topic": "Baustellenbegehung",
         "date": "2026-06-17",
-        "time": "14:06",
+        "time": "14:24",
         "weather": "23 °C, bedeckt, trocken, Wind 12 km/h",
         "protocolLead": "Marvin Hohmann",
         "remark": "",
@@ -61,242 +61,12 @@
         ],
         "photos": [
           {
-            "name": "IMG_0354.jpeg",
+            "name": "image.jpg",
             "data": "",
             "caption": ""
           },
           {
-            "name": "IMG_0353.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "IMG_0352.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "IMG_0351.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "IMG_0350.png",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "IMG_0349.png",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "IMG_0348.png",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "IMG_0347.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00306.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00305.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00304.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "IMG_0343.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "IMG_0342.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "IMG_0341.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "IMG_0340.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "IMG_0339.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "IMG_0338.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "IMG_0337.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "IMG_0336.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "IMG_0335.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "IMG_0334.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "IMG_0333.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "IMG_0332.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "35f5498d-b21e-4352-9335-65f2df599ed6.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00303.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00302.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00301.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00300.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00299.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00298.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00297.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00296.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00295.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00293.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00292.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00290.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00289.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00288.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00287.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00286.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00285.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00284.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00283.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00282.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00281.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00280.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00279.jpeg",
-            "data": "",
-            "caption": ""
-          },
-          {
-            "name": "TC_00278.jpeg",
+            "name": "image.jpg",
             "data": "",
             "caption": ""
           }
@@ -312,6 +82,6 @@
       "workMail": "marvin.hohmann@ptb-ingenieure.de",
       "apiKeySaved": false
     },
-    "activeInspectionId": "mqi0ztpn6090hy"
+    "activeInspectionId": "mqi1na5wwons30"
   }
 }
