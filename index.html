@@ -1,0 +1,1379 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UBB Begehungsprotokoll 0.4.17</title>
+  <style>
+    :root{--bg:#f6f7f9;--card:#fff;--text:#15171a;--muted:#68707c;--accent:#1976d2;--danger:#c62828;--line:#d9dde3;--soft:#eef5ff}
+    *{box-sizing:border-box} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+    header{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line);padding:12px 14px;display:flex;gap:10px;align-items:center;justify-content:space-between}
+    h1{font-size:18px;margin:0}.wrap{max-width:920px;margin:0 auto;padding:14px}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:700px){.grid{grid-template-columns:1fr}.hide-mobile{display:none}}
+    label{font-weight:700;font-size:13px;margin-top:8px;display:block} input,select,textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff;font-size:16px;margin-top:5px} textarea{min-height:88px} input[type=file]{padding:9px}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.spacer{flex:1}
+    button{border:0;border-radius:12px;padding:12px 14px;font-weight:700;font-size:15px;background:var(--accent);color:#fff;cursor:pointer} button.secondary{background:#eef0f3;color:#17202a} button.danger{background:var(--danger)} button.ghost{background:transparent;color:var(--accent);padding:8px} button.big{font-size:20px;padding:18px;width:100%;border-radius:18px}.plus{font-size:30px;vertical-align:-3px;margin-right:8px}.tabbar{display:flex;gap:8px;overflow:auto;padding:8px 14px;background:#fff;border-bottom:1px solid var(--line)}.tabbar button{white-space:nowrap;background:#eef0f3;color:#17202a}.tabbar button.active{background:var(--accent);color:#fff}
+    .muted{color:var(--muted);font-size:13px}.pill{display:inline-block;background:var(--soft);border:1px solid #cfe4ff;border-radius:999px;padding:6px 10px;margin:3px;font-size:13px}.list-item{border:1px solid var(--line);border-radius:12px;padding:12px;margin:8px 0;background:#fff}.redbox{border:2px solid #c62828;background:#fff5f5;padding:12px;border-radius:8px}.photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}.photos img{width:100%;height:110px;object-fit:cover;border-radius:10px;border:1px solid var(--line)}.hidden{display:none!important}.success{background:#ecf8ef;border:1px solid #bfe5c7;color:#245b2e;padding:10px;border-radius:10px}.inline-success{display:inline-block;background:#ecf8ef;border:1px solid #bfe5c7;color:#245b2e;padding:8px 10px;border-radius:10px;font-size:13px;font-weight:700}.emp-summary{cursor:pointer;font-weight:700;display:flex;gap:8px;align-items:center;justify-content:space-between}.emp-summary::-webkit-details-marker{display:none}.check{color:#2e7d32;font-weight:800}.warn{background:#fff8e1;border:1px solid #f2d27b;color:#6b4b00;padding:10px;border-radius:10px}
+  </style>
+</head>
+<body>
+<header><h1>UBB Begehungsprotokoll</h1><button class="secondary" onclick="saveNow()">Speichern</button></header>
+<nav class="tabbar" id="tabs"></nav>
+<main class="wrap" id="app"></main>
+
+<script>
+const COMPANY_LOGO='data:image/jpeg;base64,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';
+const KEY='ubb_html_app_04';
+// Zentrale Fotomaße für das Word-Protokoll (einmalig definiert, an mehreren Stellen genutzt).
+const PHOTO_MAX_W_CM=6.43;   // maximale Bildbreite im DOC
+const PHOTO_MAX_H_CM=8.56;   // maximale Bildhöhe im DOC
+const CM_TO_PX=37.7952755906; // Umrechnung cm -> px bei 96 DPI
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+function defaultState(){return {company:{name:'',address:'',phone:'',email:'',website:'',open:true},employees:[],projects:[],inspections:[],settings:{apiKey:'',apiKeySaved:false,model:'gpt-4o-mini'},activeInspectionId:null};}
+let state=defaultState();
+function normalizeState(){
+  if(state.company && state.company.open===undefined) state.company.open = !state.company.name;
+  if(state.settings && state.settings.apiKeySaved===undefined) state.settings.apiKeySaved = !!state.settings.apiKey;
+}
+let page='home';
+let flashTarget={};
+
+// ============================================================
+// Speicher: IndexedDB (großer Speicher für Fotos) mit
+// automatischer einmaliger Übernahme alter localStorage-Daten.
+// Die App arbeitet weiter synchron mit `state`; save() schreibt
+// sofort in den Speicher (asynchron im Hintergrund, ohne zu warten).
+// ============================================================
+const IDB_NAME='ubb_app_db';
+const IDB_STORE='kv';
+let _idb=null;
+
+function idbOpen(){
+  return new Promise((resolve,reject)=>{
+    try{
+      const req=indexedDB.open(IDB_NAME,1);
+      req.onupgradeneeded=()=>{ const db=req.result; if(!db.objectStoreNames.contains(IDB_STORE)) db.createObjectStore(IDB_STORE); };
+      req.onsuccess=()=>resolve(req.result);
+      req.onerror=()=>reject(req.error);
+    }catch(e){reject(e);}
+  });
+}
+function idbGet(key){
+  return new Promise((resolve,reject)=>{
+    if(!_idb){resolve(null);return;}
+    try{
+      const tx=_idb.transaction(IDB_STORE,'readonly');
+      const r=tx.objectStore(IDB_STORE).get(key);
+      r.onsuccess=()=>resolve(r.result??null);
+      r.onerror=()=>reject(r.error);
+    }catch(e){reject(e);}
+  });
+}
+function idbSet(key,val){
+  return new Promise((resolve,reject)=>{
+    if(!_idb){resolve(false);return;}
+    try{
+      const tx=_idb.transaction(IDB_STORE,'readwrite');
+      tx.objectStore(IDB_STORE).put(val,key);
+      tx.oncomplete=()=>resolve(true);
+      tx.onerror=()=>reject(tx.error);
+    }catch(e){reject(e);}
+  });
+}
+
+let storageWarningShown=false;
+let _saveQueued=false;
+// Schreibt den aktuellen state in IndexedDB. Wird von save() angestoßen.
+async function persistState(){
+  _saveQueued=false;
+  try{
+    if(_idb){ await idbSet(KEY, state); return true; }
+    // Fallback, falls IndexedDB nicht verfügbar ist: localStorage versuchen.
+    localStorage.setItem(KEY, JSON.stringify(state));
+    return true;
+  }catch(e){
+    console.error('Speichern fehlgeschlagen:', e);
+    if(!storageWarningShown){
+      storageWarningShown=true;
+      alert('Die Daten konnten auf diesem Gerät nicht vollständig gespeichert werden. Bitte ggf. sehr große/alte Fotos entfernen oder die GitHub-Datensicherung nutzen.');
+    }
+    return false;
+  }
+}
+// Synchron aufrufbar wie bisher; stößt das Speichern im Hintergrund an.
+function save(){
+  if(!_saveQueued){ _saveQueued=true; Promise.resolve().then(persistState); }
+  return true;
+}
+function saveNow(msg='✅ Gespeichert.'){save(); toast(msg)}
+function saveArea(key,msg){save(); flashTarget[key]=msg; render(); setTimeout(()=>{delete flashTarget[key]; render()},2200)}
+function toast(msg){const d=document.createElement('div');d.className='success';d.textContent=msg;document.querySelector('.wrap').prepend(d);setTimeout(()=>d.remove(),1800)}
+function esc(s){return (s||'').toString().replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]))}
+function escAttr(s){return esc(s).replace(/\"/g,'&quot;').replace(/'/g,'&#39;')}
+function byId(arr,id){return arr.find(x=>x.id===id)}
+function nav(){const tabs=[['home','Start'],['company','Büro'],['dataServer','Daten/Server'],['projects','Projekte'],['inspections','Begehungen']];document.getElementById('tabs').innerHTML=tabs.map(t=>`<button class="${page===t[0]?'active':''}" onclick="page='${t[0]}';render()">${t[1]}</button>`).join('')}
+function render(){save();nav();({home,company,dataServer,projects,inspections}[page]||home)()}
+function home(){const open=state.inspections.filter(i=>i.status!=='abgeschlossen').length;document.getElementById('app').innerHTML=`
+  <button class="big" onclick="newInspectionStart()"><span class="plus">＋</span>Neue Begehung</button>
+  <div class="card"><h2>Übersicht</h2><p class="muted">Offene Begehungen: ${open}</p><p class="muted">Projekte: ${state.projects.length} · Mitarbeiter: ${state.employees.length}</p></div>
+  <div class="card"><h2>Letzte Begehungen</h2>${state.inspections.slice(-5).reverse().map(i=>inspectionCard(i)).join('')||'<p class="muted">Noch keine Begehung angelegt.</p>'}</div>`}
+function company(){const c=state.company||{}; const cname=esc(c.name||'Eigene Firma'); const csaved=flashTarget['company']?`<span class="inline-success">${flashTarget['company']}</span>`:''; document.getElementById('app').innerHTML=`<details class="card" ${c.open?'open':''} ontoggle="state.company.open=this.open;save()"><summary class="emp-summary"><h2 style="margin:0">${cname} <span class="check">✓</span></h2>${csaved}</summary>
+ <div style="margin-top:12px">${inp('Firmenname','company.name')} ${ta('Anschrift','company.address')} <div class="grid">${inp('Telefon','company.phone')}${inp('E-Mail','company.email')}${inp('Website','company.website')}</div><div class="row"><button class="secondary" onclick="saveCompany(event)">Firma speichern</button>${flashTarget['company-btn']?`<span class="inline-success">${flashTarget['company-btn']}</span>`:''}</div></div></details>
+ <div class="card"><h2>Mitarbeiter (${state.employees.length})</h2><div id="emplist">${state.employees.map(empCard).join('')||'<p class="muted">Noch keine Mitarbeiter.</p>'}</div><button onclick="addEmployee()">+ Mitarbeiter hinzufügen</button></div>`; bindInputs()}
+
+function dataServer(){document.getElementById('app').innerHTML=`
+ <div class="card"><h2>OpenAI API</h2><p class="muted">Der API-Key wird nur lokal in deinem Browser gespeichert und nur für die KI-Textgenerierung verwendet.</p>${state.settings.apiKeySaved ? `<div class="success">✓ API-Key gespeichert</div><button class="secondary" onclick="state.settings.apiKeySaved=false; render();">API-Key ändern</button>` : `<label>OpenAI API-Key</label><input type="password" id="apiKeyInput" placeholder="OpenAI API-Key eingeben" autocomplete="off">`}${inp('Modell','settings.model')}<div class="row"><button class="secondary" onclick="saveApiSettings(event)">API speichern</button>${flashTarget['api-settings']?`<span class="inline-success">${flashTarget['api-settings']}</span>`:''}</div></div>
+ <div class="card"><h2>Daten sichern / wiederherstellen</h2><p class="muted">Sichert Firma, Mitarbeiter, Projekte, Begehungen, Feststellungen und lokal gespeicherte Fotos als JSON-Datei.</p><h3>GitHub-Datensicherung</h3><p class="muted">Beim Protokoll-Upload werden automatisch alle Textdaten (Firma, Mitarbeiter, Projekte, Begehungen, Feststellungen) unter <b>App-Daten/ubb_daten.json</b> im GitHub-Repository gesichert. Die Fotos sind aus Größengründen nicht in dieser Datei enthalten – sie liegen einzeln im <b>bilder</b>-Ordner jedes Protokolls. Mit dem Button unten kannst du die Textdaten auf einem anderen Gerät wiederherstellen.</p><div class="row"><button class="secondary" id="loadAppDataGithubBtn" onclick="restoreAppDataFromGithub(this)">↩ App-Daten aus GitHub wiederherstellen</button>${flashTarget['github-app-data']?`<span class="inline-success">${flashTarget['github-app-data']}</span>`:''}</div><p class="warn">Wichtig: Wiederherstellen aus GitHub ersetzt die aktuell im Browser gespeicherten Daten.</p><h3>Lokale Sicherungsdatei</h3><p class="muted">Zusätzliche Notfall-Sicherung als Datei auf deinem Gerät.</p><div class="row"><button class="secondary" onclick="exportData()">💾 Lokale JSON-Datei sichern</button><label style="margin:0"><span class="secondary" style="display:inline-block;border-radius:12px;padding:12px 14px;font-weight:700;background:#eef0f3;color:#17202a;cursor:pointer">📂 Lokale JSON-Datei wiederherstellen</span><input type="file" accept="application/json" onchange="importData(this.files[0])" style="display:none"></label></div><p class="warn">Wichtig: Auch die lokale Wiederherstellung ersetzt die aktuell im Browser gespeicherten Daten.</p>${githubConfigPanel()}</div>`; bindInputs()}
+
+
+function saveApiSettings(ev){
+  if(ev) ev.preventDefault();
+  const apiInput=document.getElementById('apiKeyInput');
+  if(apiInput && apiInput.value.trim()){
+    state.settings.apiKey=apiInput.value.trim();
+  }
+  state.settings.apiKeySaved=!!state.settings.apiKey;
+  saveArea('api-settings','✅ API gespeichert');
+}
+function saveCompany(ev){if(ev) ev.preventDefault(); state.company.open=false; saveArea('company','✅ Firma gespeichert')}
+function empCard(e){const key='emp-'+e.id; const name=esc(e.name||'Neuer Mitarbeiter'); const saved=flashTarget[key]?`<span class="inline-success">${flashTarget[key]}</span>`:''; return `<details class="list-item" ${e.open?'open':''}><summary class="emp-summary"><span>${name} <span class="check">✓</span></span>${saved}</summary><div class="grid">${rawInp('Name',e.name,`setEmp('${e.id}','name',this.value)`)}${rawInp('Funktion',e.role,`setEmp('${e.id}','role',this.value)`)}${rawInp('E-Mail',e.email,`setEmp('${e.id}','email',this.value)`)}${rawInp('Telefon',e.phone,`setEmp('${e.id}','phone',this.value)`)}</div><div class="row"><button class="secondary" onclick="saveEmployee('${e.id}')">Mitarbeiter speichern</button><button class="danger" onclick="delEmp('${e.id}')">Löschen</button></div></details>`}
+function saveEmployee(id){const e=byId(state.employees,id); if(e) e.open=false; saveArea('emp-'+id,'✅ Mitarbeiter gespeichert')}
+function addEmployee(){state.employees.push({id:uid(),name:'',role:'Umweltfachliche Bauüberwachung',email:'',phone:'',open:true});render(); toast('Neuer Mitarbeiter angelegt – bitte ausfüllen und speichern.')} function setEmp(id,k,v){byId(state.employees,id)[k]=v;save()} function delEmp(id){state.employees=state.employees.filter(e=>e.id!==id);render()}
+function projects(){document.getElementById('app').innerHTML=`<div class="card"><h2>Projekte (${state.projects.length})</h2><button onclick="addProject()">+ Neues Projekt</button>${state.projects.map(projectCard).join('')||'<p class="muted">Noch kein Projekt.</p>'}</div>`}
+function projectCard(p){const key='proj-'+p.id; const name=esc(p.name||'Neues Projekt'); const saved=flashTarget[key]?`<span class="inline-success">${flashTarget[key]}</span>`:''; return `<details class="list-item" ${p.open?'open':''} ontoggle="setProjectOpen('${p.id}',this.open)"><summary class="emp-summary"><span>${name} <span class="check">✓</span></span>${saved}</summary><div style="margin-top:12px"><div class="grid">${rawInp('Projektname',p.name,`setProj('${p.id}','name',this.value)`)}${rawInp('Projektnummer',p.number,`setProj('${p.id}','number',this.value)`)}${rawInp('Auftraggeber',p.client,`setProj('${p.id}','client',this.value)`)}${rawInp('Ort / Raum / Strecke',p.location,`setProj('${p.id}','location',this.value)`)}</div>${rawTa('Projekthinweise',p.notes,`setProj('${p.id}','notes',this.value)`)}<h4>Verteiler (${(p.distribution||[]).length})</h4><div>${(p.distribution||[]).map((d,idx)=>distRow(p.id,idx,d)).join('')||'<p class="muted">Kein Verteiler eingetragen.</p>'}</div><div class="row"><button class="secondary" onclick="addDist('${p.id}')">+ Verteiler hinzufügen</button><button class="secondary" onclick="saveArea('dist-${p.id}','✅ Verteiler gespeichert')">Verteiler speichern</button>${flashTarget['dist-'+p.id]?`<span class="inline-success">${flashTarget['dist-'+p.id]}</span>`:''}</div><h4>Standardteilnehmer</h4>${employeeCheckboxes(p.standardParticipants||[],`toggleStdPart('${p.id}',`) }<br><div class="row"><button class="secondary" onclick="saveProject('${p.id}')">Projekt speichern</button><button class="danger" onclick="delProj('${p.id}')">Projekt löschen</button></div></div></details>`}
+function saveProject(id){const p=byId(state.projects,id); if(p) p.open=false; saveArea('proj-'+id,'✅ Projekt gespeichert')}
+function setProjectOpen(id,isOpen){const p=byId(state.projects,id); if(p){p.open=isOpen; save()}}
+function distRow(pid,idx,d){return `<div class="grid list-item">${rawInp('Name',d.name,`setDist('${pid}',${idx},'name',this.value)`)}${rawInp('Firma',d.company,`setDist('${pid}',${idx},'company',this.value)`)}${rawInp('Funktion',d.role,`setDist('${pid}',${idx},'role',this.value)`)}${rawInp('E-Mail',d.email,`setDist('${pid}',${idx},'email',this.value)`)}<button class="danger" onclick="delDist('${pid}',${idx})">Entfernen</button></div>`}
+function addProject(){state.projects.push({id:uid(),name:'',number:'',client:'',location:'',notes:'',distribution:[],standardParticipants:[],open:true});render(); toast('Neues Projekt angelegt – bitte ausfüllen und speichern.')} function setProj(id,k,v){byId(state.projects,id)[k]=v;save()} function delProj(id){state.projects=state.projects.filter(p=>p.id!==id);render()} function addDist(pid){const p=byId(state.projects,pid); p.open=true; p.distribution.push({name:'',company:'',role:'',email:''});render(); toast('Neuer Verteiler-Eintrag angelegt – bitte ausfüllen und speichern.')} function setDist(pid,i,k,v){byId(state.projects,pid).distribution[i][k]=v;save()} function delDist(pid,i){byId(state.projects,pid).distribution.splice(i,1);render()} function toggleStdPart(pid,eid){let a=byId(state.projects,pid).standardParticipants||[];a.includes(eid)?a.splice(a.indexOf(eid),1):a.push(eid);byId(state.projects,pid).standardParticipants=a;render()}
+function newInspectionStart(){page='inspections'; state.activeInspectionId=null; renderNewInspection()}
+function inspections(){if(state.activeInspectionId) return editInspection(state.activeInspectionId); document.getElementById('app').innerHTML=`<button class="big" onclick="renderNewInspection()"><span class="plus">＋</span>Neue Begehung</button><div class="card"><h2>Alle Begehungen</h2>${state.inspections.slice().reverse().map(inspectionCard).join('')||'<p class="muted">Noch keine Begehung.</p>'}</div>`}
+function inspectionCard(i){const p=byId(state.projects,i.projectId)||{};return `<details class="list-item"><summary class="emp-summary"><span>${esc(i.date)} – ${esc(p.name)||'Projekt unbekannt'}</span><span class="muted">${esc(i.topic)}</span></summary><div style="margin-top:10px"><p class="muted">Uhrzeit: ${esc(i.time)} · Witterung: ${esc(i.weather)} · Feststellungen: ${(i.findings||[]).length}</p><div class="row"><button class="secondary" onclick="openInspection('${i.id}')">Öffnen</button><button class="secondary" onclick="editInspectionDetails('${i.id}')">✏ Begehung bearbeiten</button><button class="danger" onclick="deleteInspection('${i.id}')">🗑 Begehung löschen</button><button class="secondary" data-action="save-github" onclick="saveProtocolToGithub('${i.id}', this)">📄 Protokoll erstellen</button><button class="secondary" onclick="sharePhotosToLibrary('${i.id}', this)">📷 Fotos in Mediathek sichern</button></div></div></details>`}
+function openInspection(id){state.activeInspectionId=id;page='inspections';render()}
+function deleteInspection(id){const i=byId(state.inspections,id);const p=byId(state.projects,i?.projectId)||{};if(!confirm(`Begehung vom ${i?.date||''} – ${p.name||'Projekt'} wirklich löschen?
+
+Alle zugehörigen Feststellungen und Fotos werden ebenfalls entfernt.`)) return; state.inspections=state.inspections.filter(x=>x.id!==id); if(state.activeInspectionId===id) state.activeInspectionId=null; save(); render(); toast('✅ Begehung gelöscht')}
+function toggleOtherTopic(){const sel=document.getElementById('newTopic')||document.getElementById('editTopic'); const wrap=document.getElementById('otherTopicWrap')||document.getElementById('editOtherTopicWrap'); if(!sel||!wrap) return; wrap.style.display=sel.value==='Anderes Thema'?'block':'none'}
+function renderNewInspection(){const me=state.employees[0]?.id||'';tempParts=me?[me]:[];tempInspectionPhotos=[];document.getElementById('app').innerHTML=`<div class="card"><h2>Neue Begehung</h2><label>Projekt</label><select id="newProject" onchange="prefillParticipants()"><option value="">Bitte auswählen</option>${state.projects.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('')}</select><div class="grid"><div><label>Thema</label><select id="newTopic" onchange="toggleOtherTopic()"><option>Baustellenbegehung</option><option>Begleitung von Arbeiten</option><option>Kartierung</option><option>Anderes Thema</option></select></div><div id="otherTopicWrap" style="display:none"><label>Bezeichnung des Themas</label><input id="newOtherTopic" type="text" placeholder="z. B. Abstimmung mit EBA, Nachkontrolle..."></div><div><label>Datum</label><input id="newDate" type="date" value="${new Date().toISOString().slice(0,10)}"></div><div><label>Uhrzeit</label><input id="newTime" type="text" value="${new Date().toTimeString().slice(0,5)}"></div><div><label>Witterung</label><input id="newWeather" type="text" placeholder="wird automatisch ermittelt"><button type="button" class="secondary" onclick="autoWeather()">Witterung aktualisieren</button><div id="weatherFeedback" class="hint"></div></div><div><label>Protokollführung</label><input id="newProtocolLead" type="text" value="${escAttr(state.employees[0]?.name||'')}"></div></div><label>Bemerkung</label><textarea id="newRemark"></textarea><h3>Teilnehmer</h3><div id="newParts">${employeeCheckboxes(tempParts, 'toggleNewPart(')}</div><h3>Fotos zur Begehung</h3><p class="muted">Du kannst vorhandene Dateien auswählen oder direkt mit dem iPhone ein Foto aufnehmen.</p><label>Aus Dateien / Fotomediathek auswählen</label><input type="file" accept="image/*" multiple id="inspectionFiles"><label>Direkt Foto aufnehmen</label><input type="file" accept="image/*" capture="environment" multiple id="inspectionCamera" onchange="addNewInspectionCameraPhotos(this)"><div id="newCameraPreview" class="photos"></div><button onclick="createInspection()">Begehung anlegen</button></div>`; setTimeout(autoWeather,300)}
+let tempParts=[];
+let tempInspectionPhotos=[];
+// Sammelt direkt aufgenommene Kamerafotos der NEUEN Begehung in einer temporären
+// Liste (das Kamera-Feld liefert pro Aufnahme nur ein Foto). Vorschau wird aktualisiert.
+async function addNewInspectionCameraPhotos(input){
+  const files=input && input.files ? Array.from(input.files) : [];
+  if(!files.length) return;
+  for(let idx=0; idx<files.length; idx++){
+    tempInspectionPhotos.push({name:files[idx].name||('foto_'+Date.now()+'.jpg'),data:await fileToData(files[idx]),caption:''});
+  }
+  input.value=''; // Feld leeren, damit die nächste Aufnahme möglich ist
+  renderNewCameraPreview();
+  toast('✅ Foto hinzugefügt');
+}
+function renderNewCameraPreview(){
+  const el=document.getElementById('newCameraPreview'); if(!el) return;
+  el.innerHTML=tempInspectionPhotos.map((ph,ix)=>`<div><img src="${ph.data}"><button class="danger" onclick="removeNewCameraPhoto(${ix})">Foto löschen</button></div>`).join('');
+}
+function removeNewCameraPhoto(ix){tempInspectionPhotos.splice(ix,1);renderNewCameraPreview();}
+function prefillParticipants(){const pid=document.getElementById('newProject').value;const p=byId(state.projects,pid);tempParts=[...(p?.standardParticipants||[])]; if(!tempParts.length && state.employees[0]) tempParts=[state.employees[0].id]; document.getElementById('newParts').innerHTML=employeeCheckboxes(tempParts,'toggleNewPart(')} function toggleNewPart(eid){tempParts.includes(eid)?tempParts.splice(tempParts.indexOf(eid),1):tempParts.push(eid);document.getElementById('newParts').innerHTML=employeeCheckboxes(tempParts,'toggleNewPart(')}
+
+function weatherTextFromCode(code){
+  const c=Number(code);
+  if(c===0) return 'wolkenlos';
+  if([1,2].includes(c)) return 'leicht bewölkt';
+  if(c===3) return 'bedeckt';
+  if([45,48].includes(c)) return 'neblig';
+  if([51,53,55,56,57].includes(c)) return 'Nieselregen';
+  if([61,63,65,66,67,80,81,82].includes(c)) return 'regnerisch';
+  if([71,73,75,77,85,86].includes(c)) return 'Schneefall';
+  if([95,96,99].includes(c)) return 'Gewitter';
+  return 'wechselhaft';
+}
+function setWeatherFeedback(msg, ok=true){const el=document.getElementById('weatherFeedback'); if(el){el.textContent=msg; el.style.color=ok?'#2d7a36':'#9a3b00';}}
+async function autoWeather(){ return autoWeatherFor('newWeather','weatherFeedback'); }
+async function autoWeatherFor(inputId, feedbackId){
+  const weatherInput=document.getElementById(inputId);
+  const oldFeedback=document.getElementById('weatherFeedback');
+  if(!weatherInput) return;
+  const setFb=(msg,ok=true)=>{const el=document.getElementById(feedbackId); if(el){el.textContent=msg; el.style.color=ok?'#2d7a36':'#9a3b00';} else setWeatherFeedback(msg,ok)};
+  if(!navigator.geolocation){setFb('⚠ Standortdaten werden von diesem Gerät/Browser nicht unterstützt.', false); return;}
+  weatherInput.placeholder='Witterung wird ermittelt...';
+  setFb('Standort wird abgefragt...');
+  navigator.geolocation.getCurrentPosition(async pos=>{
+    try{
+      const lat=pos.coords.latitude.toFixed(5), lon=pos.coords.longitude.toFixed(5);
+      setFb('Wetterdaten werden geladen...');
+      const url=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,precipitation,weather_code,wind_speed_10m&timezone=auto`;
+      const r=await fetch(url);
+      if(!r.ok) throw new Error('Wetterdienst nicht erreichbar');
+      const data=await r.json();
+      const cur=data.current||{};
+      const temp=cur.temperature_2m;
+      const wind=cur.wind_speed_10m;
+      const precip=Number(cur.precipitation||0);
+      const condition=weatherTextFromCode(cur.weather_code);
+      const rain=precip>0 ? `Niederschlag ${precip} mm` : 'trocken';
+      const parts=[];
+      if(temp!==undefined) parts.push(`${Math.round(temp)} °C`);
+      parts.push(condition);
+      parts.push(rain);
+      if(wind!==undefined) parts.push(`Wind ${Math.round(wind)} km/h`);
+      weatherInput.value=parts.join(', ');
+      setFb('✅ Witterung automatisch erfasst');
+    }catch(e){setFb('⚠ Witterung konnte nicht automatisch geladen werden. Bitte manuell eintragen.', false);}
+  }, err=>{
+    setFb('⚠ Standortfreigabe nicht erteilt oder nicht verfügbar. Bitte Witterung manuell eintragen.', false);
+  }, {enableHighAccuracy:false, timeout:10000, maximumAge:300000});
+}
+
+async function createInspection(){const projectId=document.getElementById('newProject').value;if(!projectId){alert('Bitte Projekt auswählen.');return}let topic=document.getElementById('newTopic').value;const other=document.getElementById('newOtherTopic').value.trim(); if(topic==='Anderes Thema'){ if(!other){alert('Bitte die Bezeichnung des anderen Themas eingeben.'); return;} topic=other; } const photos=[...tempInspectionPhotos]; const files=[...document.getElementById('inspectionFiles').files]; for(const file of files){photos.push({name:file.name,data:await fileToData(file),caption:''})} const i={id:uid(),projectId,topic,date:document.getElementById('newDate').value,time:document.getElementById('newTime').value,weather:document.getElementById('newWeather').value,protocolLead:document.getElementById('newProtocolLead').value,remark:document.getElementById('newRemark').value,participants:[...tempParts],photos,findings:[],status:'offen'}; state.inspections.push(i); state.activeInspectionId=i.id; tempInspectionPhotos=[]; render(); toast('✅ Begehung erfolgreich angelegt')}
+function editInspection(id){const i=byId(state.inspections,id); if(!i){state.activeInspectionId=null; render(); return;} const p=byId(state.projects,i.projectId)||{};document.getElementById('app').innerHTML=`<div class="card"><button class="secondary" style="width:100%;margin-bottom:14px;font-weight:700;font-size:1.02rem" onclick="state.activeInspectionId=null;render()">⬅ Zur Begehungsliste</button><h2>${esc(p.name)}</h2><p class="muted">Begehung vom ${esc(i.date)} ${esc(i.time)} · ${esc(i.topic)}</p><div class="photos">${(i.photos||[]).map(ph=>`<img src="${ph.data}" alt="Foto Begehung">`).join('')}</div><div class="row"><button onclick="addFinding('${id}')">+ Feststellung hinzufügen</button><button class="secondary" onclick="editInspectionDetails('${id}')">✏ Begehung bearbeiten</button><button class="danger" onclick="deleteInspection('${id}')">🗑 Begehung löschen</button><button class="secondary" data-action="save-github" onclick="saveProtocolToGithub('${id}', this)">📄 Protokoll erstellen</button><button class="secondary" onclick="sharePhotosToLibrary('${id}', this)">📷 Fotos in Mediathek sichern</button></div></div><div class="card"><h2>Feststellungen (${(i.findings||[]).length})</h2>${(i.findings||[]).map((f,idx)=>findingCard(id,f,idx)).join('')||'<p class="muted">Noch keine Feststellungen.</p>'}</div>`}
+function editInspectionDetails(id){const i=byId(state.inspections,id); if(!i) return; const standard=['Baustellenbegehung','Begleitung von Arbeiten','Kartierung']; const isOther=!standard.includes(i.topic); tempParts=[...(i.participants||[])]; document.getElementById('app').innerHTML=`<div class="card"><h2>Begehung bearbeiten</h2><label>Projekt</label><select id="editProject" onchange="prefillEditParticipants()"><option value="">Bitte auswählen</option>${state.projects.map(p=>`<option value="${p.id}" ${p.id===i.projectId?'selected':''}>${esc(p.name)}</option>`).join('')}</select><div class="grid"><div><label>Thema</label><select id="editTopic" onchange="toggleOtherTopic()"><option ${!isOther&&i.topic==='Baustellenbegehung'?'selected':''}>Baustellenbegehung</option><option ${!isOther&&i.topic==='Begleitung von Arbeiten'?'selected':''}>Begleitung von Arbeiten</option><option ${!isOther&&i.topic==='Kartierung'?'selected':''}>Kartierung</option><option ${isOther?'selected':''}>Anderes Thema</option></select></div><div id="otherTopicWrap" style="display:${isOther?'block':'none'}"><label>Bezeichnung des Themas</label><input id="editOtherTopic" type="text" value="${isOther?escAttr(i.topic):''}" placeholder="z. B. Abstimmung mit EBA, Nachkontrolle..."></div><div><label>Datum</label><input id="editDate" type="date" value="${escAttr(i.date)}"></div><div><label>Uhrzeit</label><input id="editTime" type="text" value="${escAttr(i.time)}"></div><div><label>Witterung</label><input id="editWeather" type="text" value="${escAttr(i.weather)}"><button type="button" class="secondary" onclick="autoWeatherFor('editWeather','weatherFeedback')">Witterung aktualisieren</button><div id="weatherFeedback" class="hint"></div></div><div><label>Protokollführung</label><input id="editProtocolLead" type="text" value="${escAttr(i.protocolLead)}"></div></div><label>Bemerkung</label><textarea id="editRemark">${esc(i.remark)}</textarea><h3>Teilnehmer</h3><div id="newParts">${employeeCheckboxes(tempParts,'toggleEditPart(')}</div><h3>Fotos zur Begehung</h3><div class="photos">${(i.photos||[]).map((ph,ix)=>`<div><img src="${ph.data}"><button class="danger" onclick="removeInspectionPhoto('${id}',${ix})">Foto löschen</button></div>`).join('')}</div><label>Aus Dateien / Fotomediathek hinzufügen</label><input type="file" accept="image/*" multiple id="editInspectionFiles"><label>Direkt Foto aufnehmen</label><input type="file" accept="image/*" capture="environment" multiple id="editInspectionCamera" onchange="addInspectionCameraPhotos('${id}',this)"><div class="row"><button onclick="saveInspectionDetails('${id}')">Begehung speichern</button><button class="secondary" onclick="openInspection('${id}')">Abbrechen</button></div></div>`}
+function prefillEditParticipants(){const pid=document.getElementById('editProject').value;const p=byId(state.projects,pid);tempParts=[...(p?.standardParticipants||[])]; if(!tempParts.length && state.employees[0]) tempParts=[state.employees[0].id]; document.getElementById('newParts').innerHTML=employeeCheckboxes(tempParts,'toggleEditPart(')}
+function toggleEditPart(eid){tempParts.includes(eid)?tempParts.splice(tempParts.indexOf(eid),1):tempParts.push(eid);document.getElementById('newParts').innerHTML=employeeCheckboxes(tempParts,'toggleEditPart(')}
+async function addInspectionCameraPhotos(id,input){
+  const i=byId(state.inspections,id); if(!i) return;
+  const files=input && input.files ? Array.from(input.files) : [];
+  if(!files.length) return;
+  // Aktuelle Eingaben des Bearbeiten-Formulars sichern, damit nichts verloren geht.
+  const pr=document.getElementById('editProject'); if(pr&&pr.value) i.projectId=pr.value;
+  const tp=document.getElementById('editTopic'); const ot=document.getElementById('editOtherTopic');
+  if(tp){ let topic=tp.value; if(topic==='Anderes Thema' && ot && ot.value.trim()) topic=ot.value.trim(); if(topic && topic!=='Anderes Thema') i.topic=topic; }
+  const dd=document.getElementById('editDate'); if(dd) i.date=dd.value;
+  const tt=document.getElementById('editTime'); if(tt) i.time=tt.value;
+  const ww=document.getElementById('editWeather'); if(ww) i.weather=ww.value;
+  const pl=document.getElementById('editProtocolLead'); if(pl) i.protocolLead=pl.value;
+  const rm=document.getElementById('editRemark'); if(rm) i.remark=rm.value;
+  i.participants=[...tempParts];
+  i.photos=i.photos||[];
+  for(let idx=0; idx<files.length; idx++){
+    i.photos.push({name:files[idx].name||('foto_'+Date.now()+'.jpg'),data:await fileToData(files[idx]),caption:''});
+  }
+  save();
+  editInspectionDetails(id); // neu rendern: Foto erscheint, Kamera-Feld wieder leer
+  toast('✅ Foto hinzugefügt');
+}
+async function saveInspectionDetails(id){const i=byId(state.inspections,id); if(!i) return; const projectId=document.getElementById('editProject').value; if(!projectId){alert('Bitte Projekt auswählen.');return} let topic=document.getElementById('editTopic').value; const other=(document.getElementById('editOtherTopic')?.value||'').trim(); if(topic==='Anderes Thema'){ if(!other){alert('Bitte die Bezeichnung des anderen Themas eingeben.'); return;} topic=other;} i.projectId=projectId; i.topic=topic; i.date=document.getElementById('editDate').value; i.time=document.getElementById('editTime').value; i.weather=document.getElementById('editWeather').value; i.protocolLead=document.getElementById('editProtocolLead').value; i.remark=document.getElementById('editRemark').value; i.participants=[...tempParts]; i.photos=i.photos||[]; const files=[...document.getElementById('editInspectionFiles').files]; for(const file of files){i.photos.push({name:file.name,data:await fileToData(file),caption:''})} state.activeInspectionId=id; save(); render(); toast('✅ Begehung gespeichert')}
+function removeInspectionPhoto(id,ix){const i=byId(state.inspections,id); if(!i) return; i.photos.splice(ix,1); save(); editInspectionDetails(id)}
+function findingCard(iid,f,idx){return `<div class="list-item"><b>Feststellung ${idx+1}: ${esc(f.title)||'ohne Titel'}</b><br><span class="muted">${esc(f.category)} · ${esc(f.status)} · Frist: ${esc(f.deadline)}</span><p>${esc(f.measure)}</p><div class="photos">${(f.photos||[]).map(ph=>`<img src="${ph.data}" alt="Foto">`).join('')}</div><div class="row"><button class="secondary" onclick="editFinding('${iid}','${f.id}')">✏ Bearbeiten</button><button class="danger" onclick="delFinding('${iid}','${f.id}')">Löschen</button></div></div>`}
+function addFinding(iid){
+  const i=byId(state.inspections,iid);
+  if(!i) return;
+  const f={id:uid(),category:'Bodenschutz',title:'',measure:'',responsible:'',deadline:'',status:'Offen',note:'',photos:[]};
+  i.findings=i.findings||[];
+  i.findings.push(f);
+  save();
+  editFinding(iid,f.id);
+}
+function editFinding(iid,fid){
+  const insp=byId(state.inspections,iid);
+  if(!insp){alert('Begehung nicht gefunden.'); state.activeInspectionId=null; render(); return;}
+  const f=byId(insp.findings||[],fid);
+  if(!f){alert('Feststellung nicht gefunden.'); openInspection(iid); return;}
+  document.getElementById('app').innerHTML=`<div class="card">
+    <h2>Feststellung bearbeiten</h2>
+    <label>Kategorie</label>
+    <select id="cat">
+      <option>Bodenschutz</option>
+      <option>Gewässerschutz</option>
+      <option>Artenschutz</option>
+      <option>Baumschutz</option>
+      <option>Immissionsschutz</option>
+      <option>Sonstiges</option>
+    </select>
+    <label>Feststellung</label>
+    <textarea id="findingTitle">${esc(f.title)}</textarea>
+    <label>Maßnahme</label>
+    <textarea id="findingMeasure">${esc(f.measure)}</textarea>
+    <div class="grid">
+      <div><label>Verantwortlich</label><input id="findingResponsible" type="text" value="${escAttr(f.responsible)}"></div>
+      <div><label>Frist</label><input id="findingDeadline" type="date" value="${escAttr(f.deadline)}"></div>
+      <div><label>Status</label><select id="stat"><option>Offen</option><option>In Bearbeitung</option><option>Erledigt</option><option>Kontrolle erforderlich</option></select></div>
+    </div>
+    <label>Interne Notiz</label>
+    <textarea id="findingNote">${esc(f.note)}</textarea>
+    <label>Fotos hinzufügen</label>
+    <p class="muted">Du kannst beliebig viele Fotos aus der Mediathek auswählen und zusätzlich direkt mit der Kamera aufnehmen.</p>
+    <label>Aus Dateien / Fotomediathek auswählen</label>
+    <input type="file" accept="image/*" multiple id="photos">
+    <label>Direkt Foto aufnehmen</label>
+    <input type="file" accept="image/*" capture="environment" multiple id="photosCamera" onchange="addFindingCameraPhotos('${iid}','${fid}',this)">
+    <div class="photos">${(f.photos||[]).map((ph,ix)=>`<div><img src="${ph.data}"><button class="danger" onclick="removePhoto('${iid}','${fid}',${ix})">Foto löschen</button></div>`).join('')}</div>
+    <div class="row"><button type="button" id="saveFindingButton" onclick="saveFinding('${iid}','${fid}',this)">Speichern</button><button type="button" class="secondary" onclick="openInspection('${iid}')">Zurück</button></div>
+  </div>`;
+  document.getElementById('cat').value=f.category;
+  document.getElementById('stat').value=f.status;
+}
+// Übernimmt direkt aufgenommene Kamera-Fotos sofort in die Feststellung.
+// Auf dem iPhone liefert die Kamera pro Aufnahme nur ein Foto und ersetzt den
+// Feld-Inhalt bei der nächsten Aufnahme. Damit kein Foto verloren geht, wird jede
+// Aufnahme direkt gespeichert. Zuvor werden die aktuellen Texteingaben gesichert,
+// damit beim Neu-Rendern nichts verloren geht.
+async function addFindingCameraPhotos(iid,fid,input){
+  const inspection=byId(state.inspections,iid); if(!inspection) return;
+  const f=byId(inspection.findings,fid); if(!f) return;
+  const files=input && input.files ? Array.from(input.files) : [];
+  if(!files.length) return;
+  // Aktuelle Texteingaben sichern, falls bereits etwas eingetippt wurde.
+  const cat=document.getElementById('cat'); if(cat) f.category=cat.value;
+  const stat=document.getElementById('stat'); if(stat) f.status=stat.value;
+  const t=document.getElementById('findingTitle'); if(t) f.title=t.value;
+  const m=document.getElementById('findingMeasure'); if(m) f.measure=m.value;
+  const r=document.getElementById('findingResponsible'); if(r) f.responsible=r.value;
+  const d=document.getElementById('findingDeadline'); if(d) f.deadline=d.value;
+  const n=document.getElementById('findingNote'); if(n) f.note=n.value;
+  f.photos=f.photos||[];
+  for(let idx=0; idx<files.length; idx++){
+    f.photos.push({name:files[idx].name||('foto_'+Date.now()+'.jpg'),data:await fileToData(files[idx]),caption:''});
+  }
+  save();
+  editFinding(iid,fid); // neu rendern: Foto erscheint in der Liste, Kamera-Feld ist wieder leer
+  toast('✅ Foto hinzugefügt');
+}
+async function saveFinding(iid,fid,btn){
+  const button=btn||document.getElementById('saveFindingButton');
+  const originalText=button ? button.textContent : '';
+  try{
+    if(button){button.disabled=true; button.textContent='Speichere …';}
+    const inspection=byId(state.inspections,iid);
+    if(!inspection){alert('Begehung nicht gefunden.');return;}
+    inspection.findings=inspection.findings||[];
+    const f=byId(inspection.findings,fid);
+    if(!f){alert('Feststellung nicht gefunden.');return;}
+    f.category=document.getElementById('cat')?.value||'';
+    f.title=document.getElementById('findingTitle')?.value||'';
+    f.measure=document.getElementById('findingMeasure')?.value||'';
+    f.responsible=document.getElementById('findingResponsible')?.value||'';
+    f.deadline=document.getElementById('findingDeadline')?.value||'';
+    f.status=document.getElementById('stat')?.value||'Offen';
+    f.note=document.getElementById('findingNote')?.value||'';
+    f.photos=f.photos||[];
+
+    const photoInput=document.getElementById('photos');
+    // Kamerafotos werden bereits beim Aufnehmen über addFindingCameraPhotos übernommen.
+    const files=photoInput && photoInput.files ? Array.from(photoInput.files) : [];
+    for(let idx=0; idx<files.length; idx++){
+      if(button) button.textContent='Foto '+(idx+1)+'/'+files.length+' wird gespeichert …';
+      f.photos.push({name:files[idx].name||('foto_'+(idx+1)+'.jpg'),data:await fileToData(files[idx]),caption:''});
+    }
+
+    if(photoInput) photoInput.value='';
+    save();
+    state.activeInspectionId=iid;
+    render();
+    const nr=(inspection.findings.findIndex(x=>x.id===fid)+1);
+    toast('✅ Feststellung Nr. '+nr+' gespeichert');
+  }catch(err){
+    console.error('Feststellung konnte nicht gespeichert werden:', err);
+    alert('Feststellung konnte nicht gespeichert werden. Bitte versuche es erneut. Falls Fotos ausgewählt waren, war vermutlich eine Bilddatei zu groß oder konnte auf dem Handy nicht verarbeitet werden.');
+  }finally{
+    if(button){button.disabled=false; button.textContent=originalText||'Speichern';}
+  }
+}
+function removePhoto(iid,fid,ix){const insp=byId(state.inspections,iid); if(!insp) return; const f=byId(insp.findings||[],fid); if(!f) return; (f.photos||[]).splice(ix,1); save(); editFinding(iid,fid)} function delFinding(iid,fid){const i=byId(state.inspections,iid); if(!i) return; i.findings=(i.findings||[]).filter(f=>f.id!==fid);save();render()}
+function readFileAsDataURL(file){
+  return new Promise((resolve,reject)=>{
+    const r=new FileReader();
+    r.onload=()=>resolve(r.result);
+    r.onerror=()=>reject(new Error('Datei konnte nicht gelesen werden.'));
+    r.readAsDataURL(file);
+  });
+}
+async function fileToData(file){
+  const original=await readFileAsDataURL(file);
+  if(!file || !String(file.type||'').startsWith('image/')) return original;
+  try{
+    const img=await new Promise((resolve,reject)=>{
+      const image=new Image();
+      image.onload=()=>resolve(image);
+      image.onerror=()=>reject(new Error('Bild konnte nicht geladen werden.'));
+      image.src=original;
+    });
+    const w=img.naturalWidth||img.width;
+    const h=img.naturalHeight||img.height;
+    if(!w || !h) return original;
+    const maxEdge=1600;
+    const scale=Math.min(1, maxEdge/Math.max(w,h));
+    const canvas=document.createElement('canvas');
+    canvas.width=Math.max(1, Math.round(w*scale));
+    canvas.height=Math.max(1, Math.round(h*scale));
+    const ctx=canvas.getContext('2d');
+    if(!ctx) return original;
+    ctx.drawImage(img,0,0,canvas.width,canvas.height);
+    const compressed=await new Promise(resolve=>{
+      if(canvas.toBlob){
+        canvas.toBlob(blob=>{
+          if(!blob){resolve(null);return;}
+          const r=new FileReader();
+          r.onload=()=>resolve(r.result);
+          r.onerror=()=>resolve(null);
+          r.readAsDataURL(blob);
+        },'image/jpeg',0.82);
+      }else{
+        try{resolve(canvas.toDataURL('image/jpeg',0.82));}catch(e){resolve(null);}
+      }
+    });
+    return compressed || original;
+  }catch(e){
+    console.warn('Bildkomprimierung fehlgeschlagen, nutze Original:', e);
+    return original;
+  }
+}
+// Skaliert ein einzelnes Foto so herunter, dass es exakt in die Protokoll-Box
+// (max. 10,5 x 5,2 cm bei 96 DPI) passt, und erzeugt es per Canvas neu. Das neu
+// kodierte JPEG hat keine DPI-Metadaten mehr und wird von Word in seiner nativen
+// (= korrekten) Pixelgröße eingefügt. Dadurch sind alle Bilder im DOC gleich groß,
+// unabhängig von Kamera, Quelle oder ursprünglicher DPI-Angabe.
+async function normalizePhotoForDoc(dataUrl){
+  const maxW=Math.round(PHOTO_MAX_W_CM*CM_TO_PX);
+  const maxH=Math.round(PHOTO_MAX_H_CM*CM_TO_PX);
+  try{
+    const img=await new Promise((res,rej)=>{const im=new Image();im.onload=()=>res(im);im.onerror=()=>rej(new Error('Bild konnte nicht geladen werden.'));im.src=dataUrl;});
+    const w=img.naturalWidth||img.width, h=img.naturalHeight||img.height;
+    if(!w||!h) return dataUrl;
+    const scale=Math.min(maxW/w, maxH/h, 1);
+    const tw=Math.max(1,Math.round(w*scale)), th=Math.max(1,Math.round(h*scale));
+    const canvas=document.createElement('canvas');
+    canvas.width=tw; canvas.height=th;
+    const ctx=canvas.getContext('2d');
+    if(!ctx) return dataUrl;
+    ctx.drawImage(img,0,0,tw,th);
+    try{return canvas.toDataURL('image/jpeg',0.82);}catch(e){return dataUrl;}
+  }catch(e){console.warn('Foto-Normierung fehlgeschlagen, nutze Original:',e);return dataUrl;}
+}
+
+// Erzeugt eine Kopie der Begehung, in der alle Fotos auf DOC-Zielgröße normiert sind.
+// Die Originaldaten im state bleiben unverändert (volle Qualität in der App).
+async function inspectionWithNormalizedPhotos(i){
+  const clone=JSON.parse(JSON.stringify(i));
+  if(Array.isArray(clone.photos)){
+    for(const ph of clone.photos){ if(ph&&ph.data) ph.data=await normalizePhotoForDoc(ph.data); }
+  }
+  if(Array.isArray(clone.findings)){
+    for(const f of clone.findings){
+      if(f&&Array.isArray(f.photos)){
+        for(const ph of f.photos){ if(ph&&ph.data) ph.data=await normalizePhotoForDoc(ph.data); }
+      }
+    }
+  }
+  return clone;
+}
+
+async function exportProtocol(iid){
+  const i=byId(state.inspections,iid),p=byId(state.projects,i.projectId)||{};
+  let ai=await generateTexts(i,p);
+  const iDoc=await inspectionWithNormalizedPhotos(i);
+  let html=protocolHtml(iDoc,p,ai);
+  const fileName=`Begehungsprotokoll_${(p.name||'Projekt').replaceAll(' ','_')}_${i.date}.doc`;
+  downloadBlob(html,fileName,'application/msword');
+  toast('✅ Protokoll wurde heruntergeladen.');
+}
+async function generateTexts(i,p){const fallback={bullets:i.findings.map(f=>f.title).filter(Boolean),texts:i.findings.map(f=>`Im Zuge der Begehung wurde folgende Feststellung dokumentiert: ${f.title||'Feststellung ohne Kurzbeschreibung'}. ${f.measure?`Als Maßnahme wurde festgehalten: ${f.measure}.`:''} ${f.responsible?`Verantwortlich ist ${f.responsible}.`:''} ${`Die Mängelbeseitigung hat ${(f.deadline && String(f.deadline).trim())?`bis zum ${f.deadline}`:'schnellstmöglich'} zu erfolgen.`}`),captions:i.findings.flatMap((f,fi)=>(f.photos||[]).map((_,pi)=>f.title||f.measure||`Feststellung ${fi+1}`)),headings:i.findings.map(f=>f.title||f.measure||'')}; if(!state.settings.apiKey) return fallback; try{const prompt=`Du bist Umweltfachliche Bauüberwachung (UBÜ) und erstellst Begehungsprotokolle.
+
+Schreibe sachlich, fachlich korrekt und präzise.
+
+ALLGEMEINE REGELN
+
+- kurze und klare Sätze
+- keine Floskeln
+- keine Wiederholungen
+- keine unnötigen Einleitungen
+- keine Ausschmückungen
+- keine Vermutungen
+- objektive und neutrale Sprache
+- fachlicher Stil einer Umweltfachlichen Bauüberwachung
+- etwa 3 bis 5 Sätze pro Feststellung, ausformuliert aber ohne Ausschweifen
+- Maßnahmen konkret benennen
+- Fristen und Verantwortlichkeiten nennen, sofern vorhanden\n- wenn keine Frist angegeben ist oder die Frist \"schnellstmöglich\" lautet, im Text \"schnellstmöglich\" verwenden und kein konkretes Datum erfinden
+- auf den Punkt formulieren
+- keine KI-typischen Formulierungen
+- offensichtliche Tipp-, Rechtschreib- und Grammatikfehler aus den Eingaben stillschweigend korrigieren
+- Fachbegriffe aus dem Umwelt- und Naturschutzbereich richtig schreiben (z. B. Artnamen, Schutzzaun-Bezeichnungen, CEF-Flächen)
+- dabei ausschließlich die Schreibweise korrigieren, niemals den inhaltlichen Sinn verändern oder Angaben hinzuerfinden
+- bei unklaren Abkürzungen oder Eigennamen die Eingabe unverändert übernehmen
+- umgangssprachliche, saloppe oder verkürzte Eingaben in eine fachlich korrekte und sachliche Formulierung übertragen
+- den gemeinten Sachverhalt dabei beibehalten, nur die Ausdrucksweise fachlich anheben
+- Beispiele:
+  Eingabe "Reptilienschutzzaun umgefahren" wird zu "Der Reptilienschutzzaun wurde durch Befahren beschädigt."
+  Eingabe "Bagger steht mitten in der Schutzfläche" wird zu "Im Bereich der Schutzfläche wurde ein abgestelltes Baufahrzeug festgestellt."
+  Eingabe "Müll überall rumliegen" wird zu "Im Baufeld wurden ungeordnete Abfallablagerungen festgestellt."
+
+NICHT SCHREIBEN
+
+"Im Rahmen der durchgeführten Begehung konnte festgestellt werden, dass ..."
+"Es wurde beobachtet, dass ..."
+"Dabei zeigte sich, dass ..."
+"Während der Begehung wurde festgestellt ..."
+"Im Zuge der Maßnahme konnte erkannt werden ..."
+"Vor Ort konnte beobachtet werden ..."
+
+SONDERN
+
+"Im Bereich Bau-km 12,4 wurden Bodenmieten außerhalb der vorgesehenen Lagerfläche festgestellt."
+"Der Reptilienschutzzaun weist auf einer Länge von ca. 5 m Beschädigungen auf."
+"Innerhalb des Baufeldes wurden Ablagerungen von Baustoffen festgestellt."
+"Der Große Wiesenknopf wurde auf den Flächen 9721 und 9753 nachgewiesen."
+
+MÄNGELKASTEN
+
+Erstelle für jede Feststellung einen kurzen Stichpunkt.
+
+Regeln:
+
+- maximal ein Satz
+- keine Erläuterungen
+- keine Bewertungen
+- keine Wiederholungen
+- nur das Wesentliche
+- Rechtschreib- und Tippfehler der Eingabe korrigieren
+- umgangssprachliche oder saloppe Eingaben fachlich korrekt und sachlich formulieren, ohne den Sinn zu verändern
+
+Beispiel:
+
+- Reptilienschutzzaun im Bereich Maststandort 5 beschädigt.
+- Bodenlagerung außerhalb der vorgesehenen Lagerfläche.
+- Amphibienschutzzaun weist mehrere Öffnungen auf.
+
+Beispiel für fachliche Umformulierung:
+
+Eingabe "Reptilienschutzzaun umgefahren" wird zu "Reptilienschutzzaun durch Befahren beschädigt."
+
+FLIESSTEXT
+
+Zu jeder Feststellung einen fachlichen Absatz, der den Sachverhalt verständlich ausformuliert.
+
+Aufbau:
+
+1. Feststellung
+2. fachliche Bewertung
+3. erforderliche Maßnahme
+
+Regeln:
+
+- etwa 3 bis 5 Sätze
+- den Sachverhalt nachvollziehbar darstellen und fachlich einordnen
+- die Maßnahme begründen, sofern sinnvoll
+- keine Wiederholung des Mängelkastens
+- sachlich und gut lesbar, ausformuliert aber ohne Floskeln oder Ausschweifen
+- keine allgemeinen Einleitungen
+
+Beispiel:
+
+Im Bereich Maststandort 5 wurde eine Beschädigung des Reptilienschutzzauns auf einer Länge von etwa 5 m festgestellt. Durch die schadhafte Stelle ist die Schutzwirkung des Zauns nicht mehr gewährleistet, sodass Reptilien in den Baubereich gelangen können. Zur Wiederherstellung der Funktion ist der Zaun zeitnah fachgerecht instand zu setzen und anschließend auf seine Dichtigkeit zu kontrollieren.
+
+FOTODOKUMENTATION
+
+Erstelle für jedes Foto eine eigene Bildunterschrift.
+
+Regeln:
+
+- maximal ein Satz
+- sachlich und kurz
+- keine Floskeln
+- keine Wiederholung der gesamten Feststellung
+- das auf dem Foto erkennbare Merkmal benennen
+- möglichst Orts- oder Maßnahmenbezug herstellen
+- bei mehreren Fotos einer Feststellung unterschiedliche Bildunterschriften verwenden
+
+NICHT SCHREIBEN
+
+"Fotodokumentation der Feststellung."
+"Abbildung der Situation."
+"Übersicht über die Baustelle."
+"Dokumentation des Sachverhalts."
+
+SONDERN
+
+"Beschädigter Reptilienschutzzaun im Bereich Maststandort 5."
+"Bodenlagerung außerhalb der ausgewiesenen Lagerfläche."
+"Großer Wiesenknopf auf Fläche 9753."
+"Kontrollierter Amphibienschutzzaun entlang des Baufeldes."
+"Umgesetzte Schlingnatter innerhalb der CEF-Fläche."
+
+ÜBERSCHRIFTEN
+
+Erstelle für jede Feststellung eine sehr kurze Überschrift aus 2 bis 4 Wörtern.
+
+Regeln:
+
+- nur ein knappes Schlagwort, keine vollständigen Sätze
+- kein abschließender Punkt
+- das Kernthema der Feststellung benennen
+- sachlich und fachlich
+- keine Floskeln, keine Wiederholung des Fließtextes
+- eigenständig formuliert, nicht wörtlich die Eingabe übernehmen
+
+Beispiel:
+
+Eingabe "Der Reptilienschutzzaun ist auf 5 m beschädigt" wird zu "Beschädigter Reptilienschutzzaun"
+Eingabe "Bodenmieten liegen außerhalb der Lagerfläche" wird zu "Bodenlagerung außerhalb Lagerfläche"
+Eingabe "Großer Wiesenknopf auf Fläche 9753 gefunden" wird zu "Nachweis Großer Wiesenknopf"
+
+WICHTIG
+
+Die Texte sollen so wirken, als wären sie von einem erfahrenen Umweltfachlichen Bauüberwacher erstellt worden.
+
+Die Formulierungen sollen kurz, fachlich und direkt sein.
+
+Antworte ausschließlich als gültiges JSON im folgenden Format:
+
+{
+  "bullets": [],
+  "texts": [],
+  "captions": [],
+  "headings": []
+}
+
+Projekt:
+${p.name}
+
+Thema:
+${i.topic}
+
+Feststellungen:
+${JSON.stringify(
+  i.findings.map(f => ({
+    category: f.category,
+    feststellung: f.title,
+    massnahme: f.measure,
+    verantwortlich: f.responsible,
+    frist: (f.deadline && String(f.deadline).trim()) ? f.deadline : 'schnellstmöglich',
+    status: f.status,
+    anzahlFotos: (f.photos || []).length
+  }))
+)}`; const r=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+state.settings.apiKey},body:JSON.stringify({model:state.settings.model||'gpt-4o-mini',messages:[{role:'system',content:'Antworte ausschließlich mit gültigem JSON.'},{role:'user',content:prompt}],temperature:0.2})}); const data=await r.json(); const txt=data.choices?.[0]?.message?.content||''; let parsed; try{ let clean=txt.replace(/```json/gi,'').replace(/```/g,'').trim(); const a=clean.indexOf('{'), b=clean.lastIndexOf('}'); if(a>=0 && b>a) clean=clean.slice(a,b+1); parsed=JSON.parse(clean); }catch(pe){ console.warn('KI-Antwort nicht parsebar, nutze Standardtext:', pe); return fallback; } return { bullets: Array.isArray(parsed.bullets)&&parsed.bullets.length?parsed.bullets:fallback.bullets, texts: Array.isArray(parsed.texts)&&parsed.texts.length?parsed.texts:fallback.texts, captions: Array.isArray(parsed.captions)&&parsed.captions.length?parsed.captions:fallback.captions, headings: Array.isArray(parsed.headings)&&parsed.headings.length?parsed.headings:fallback.headings }; }catch(e){alert('KI konnte nicht genutzt werden. Es wird ein einfacher Standardtext erstellt.'); return fallback}}
+function protocolHtml(i,p,ai){
+  let captionIndex=0;
+  let figIndex=1;
+
+  const participants=(i.participants||[])
+    .map(id=>esc(byId(state.employees,id)?.name||id))
+    .join('<br>');
+
+  const bullets=ai.bullets?.length
+    ? '<ul>'+ai.bullets.map(b=>'<li>'+esc(b)+'</li>').join('')+'</ul>'
+    : 'Im Zuge der Begehung wurden keine umweltfachlichen Mängel festgestellt.';
+
+  const texts=(ai.texts||[])
+    .map(t=>'<p>'+esc(t)+'</p>')
+    .join('');
+
+  // E-Mail-Adressen werden im Verteiler des fertigen Protokolls bewusst nicht ausgegeben.
+  const distributionRows=(p.distribution||[])
+    .map(d=>{
+      const c=v=>{const t=esc(v);return t&&t.trim()?t:'&nbsp;';};
+      return '<tr><td>'+c(d.name)+'</td><td>'+c(d.company)+'</td><td>'+c(d.role)+'</td></tr>';
+    })
+    .join('');
+
+  // Ziel der Fotodokumentation im Word-kompatiblen DOC:
+  // Bilder linksbündig, fortlaufend untereinander, unverzerrt und so skaliert,
+  // dass in der Regel drei Foto-Blöcke auf eine A4-Seite passen.
+  // (Maße PHOTO_MAX_W_CM/PHOTO_MAX_H_CM/CM_TO_PX sind global definiert.)
+
+  function dataUrlBinary(dataUrl){
+    const s=String(dataUrl||'');
+    const comma=s.indexOf(',');
+    const b64=comma>=0 ? s.slice(comma+1) : s;
+    try{return atob(b64);}catch(e){return '';}
+  }
+
+  function readU16BE(bin,offset){return (bin.charCodeAt(offset)<<8) + bin.charCodeAt(offset+1);}
+  function readU32BE(bin,offset){return ((bin.charCodeAt(offset)<<24)>>>0) + (bin.charCodeAt(offset+1)<<16) + (bin.charCodeAt(offset+2)<<8) + bin.charCodeAt(offset+3);}
+
+  function getImageDimensionsFromDataUrl(dataUrl){
+    const bin=dataUrlBinary(dataUrl);
+    if(!bin || bin.length<24) return null;
+    try{
+      // PNG: Breite/Höhe stehen im IHDR-Chunk bei Byte 16/20.
+      if(bin.charCodeAt(0)===0x89 && bin.slice(1,4)==='PNG'){
+        return {w:readU32BE(bin,16), h:readU32BE(bin,20)};
+      }
+      // JPEG: SOF-Marker suchen, dort stehen Höhe/Breite.
+      if(bin.charCodeAt(0)===0xFF && bin.charCodeAt(1)===0xD8){
+        let offset=2;
+        while(offset+9<bin.length){
+          if(bin.charCodeAt(offset)!==0xFF){offset++; continue;}
+          let marker=bin.charCodeAt(offset+1);
+          // Padding-FF überspringen.
+          while(marker===0xFF && offset+2<bin.length){offset++; marker=bin.charCodeAt(offset+1);}
+          if(marker===0xD8 || marker===0xD9){offset+=2; continue;}
+          const len=readU16BE(bin,offset+2);
+          if(!len || len<2) break;
+          const sof=(marker>=0xC0 && marker<=0xC3) || (marker>=0xC5 && marker<=0xC7) || (marker>=0xC9 && marker<=0xCB) || (marker>=0xCD && marker<=0xCF);
+          if(sof && offset+8<bin.length){
+            const h=readU16BE(bin,offset+5);
+            const w=readU16BE(bin,offset+7);
+            if(w>0 && h>0) return {w,h};
+          }
+          offset+=2+len;
+        }
+      }
+    }catch(e){console.warn('Bildmaße konnten nicht gelesen werden:', e);}
+    return null;
+  }
+
+  function fitImageToDocxBox(dataUrl){
+    const dim=getImageDimensionsFromDataUrl(dataUrl) || {w:4,h:3};
+    const ratio=dim.w/dim.h;
+    let w=PHOTO_MAX_W_CM;
+    let h=w/ratio;
+    if(h>PHOTO_MAX_H_CM){
+      h=PHOTO_MAX_H_CM;
+      w=h*ratio;
+    }
+    if(w>PHOTO_MAX_W_CM){
+      w=PHOTO_MAX_W_CM;
+      h=w/ratio;
+    }
+    // Word/HTML-Konverter arbeiten stabiler, wenn beide Maße explizit gesetzt sind.
+    return {
+      wCm:Number(w.toFixed(2)),
+      hCm:Number(h.toFixed(2)),
+      wPx:Math.max(1,Math.round(w*CM_TO_PX)),
+      hPx:Math.max(1,Math.round(h*CM_TO_PX))
+    };
+  }
+
+  function cleanFigureCaption(raw,f,fi){
+    let txt=String(raw||'').trim();
+    txt=txt.replace(/^\s*(Abbildung|Abb\.|Bild)\s*\d+\s*[:\-–]\s*/i,'').trim();
+    const generic=/^(fotodokumentation|foto\s+zu|dokumentation|abbildung|übersicht\s+zur\s+feststellung|situation)/i;
+    if(!txt || generic.test(txt) || /feststellung\s*\d+\.?$/i.test(txt)){
+      txt=String((f&&f.title)||'').trim() || String((f&&f.measure)||'').trim() || ('Feststellung '+(fi+1));
+    }
+    txt=txt.replace(/\s+/g,' ').trim();
+    if(txt && !/[.!?]$/.test(txt)) txt+='.';
+    return txt;
+  }
+
+  function photoBlockHtml(imageData,captionText){
+    const size=fitImageToDocxBox(imageData);
+    const w=size.wCm+'cm';
+    const h=size.hCm+'cm';
+    // WICHTIG: Word liest in .doc-HTML die Bildgröße zuerst aus den HTML-Attributen
+    // width/height und behandelt nackte Zahlen als Pixel, rechnet diese aber je nach
+    // eingebetteter DPI des Fotos unterschiedlich um -> dasselbe Foto mal korrekt,
+    // mal viel zu groß. Das Bild wird daher in fitImageToDocxBox bereits auf eine
+    // feste Zielpixelgröße (96 DPI, passend zu den cm-Maßen) heruntergerechnet.
+    // Hier werden BEIDE Angaben gesetzt: Pixel-Attribute (passend zur jetzt nativen
+    // Bildgröße) UND cm im Style. Beide ergeben dieselbe physikalische Größe, sodass
+    // Word unabhängig von DPI-Metadaten konsistent skaliert.
+    const imgStyle='width:'+w+';height:'+h+';max-width:'+w+';max-height:'+h+';border:0!important;outline:0;display:block;margin:0;text-align:left;mso-position-horizontal:left;';
+    // Bild und Bildunterschrift werden in eine einspaltige, rahmenlose Tabelle gelegt.
+    // Tabellenzellen erzwingen in Word ein sauberes Stapeln (Bild oben, Unterschrift
+    // darunter). Ohne diese Struktur behandelt Word das <img> als Zeilenelement und
+    // die Unterschrift rutscht seitlich neben den unteren Bildrand.
+    return '<table class="photo-block" cellspacing="0" cellpadding="0" border="0" '+
+        'style="border-collapse:collapse;border:0;margin:0 0 6pt 0;width:'+w+';table-layout:fixed;page-break-inside:avoid;">'+
+      '<tr><td style="border:0;padding:0;margin:0;text-align:left;vertical-align:top;width:'+w+';">'+
+        '<img class="protocol-photo" src="'+imageData+'" width="'+size.wPx+'" height="'+size.hPx+'" style="'+imgStyle+'">'+
+      '</td></tr>'+
+      '<tr><td style="border:0;padding:2pt 0 0 0;margin:0;text-align:left;vertical-align:top;width:'+w+';">'+
+        '<span class="photo-caption" style="font-family:Arial,Helvetica,sans-serif;font-size:11pt;line-height:1.2;"><i>'+captionText+'</i></span>'+
+      '</td></tr>'+
+    '</table>';
+  }
+
+  const inspectionPhotos=(i.photos||[]).length
+    ? '<h4>Fotos zur Begehung</h4>'+(i.photos||[]).map(ph=>
+        photoBlockHtml(ph.data,'Abbildung '+(figIndex++)+': Übersichtsfoto zur Begehung. (Eigene Aufnahme am '+esc(i.date)+')')
+      ).join('')
+    : '';
+
+  const findingPhotos=(i.findings||[]).map((f,fi)=>{
+      const photos=(f.photos||[]);
+      if(!photos.length) return '';
+      return '<div class="finding-block">'+
+        '<h4 class="finding-heading"><u>Feststellung '+(fi+1)+': '+esc(((ai.headings||[])[fi]||f.title||f.measure||'').toString().trim())+'</u></h4>'+
+        photos.map(ph=>{
+          const rawCaption=(ai.captions||[])[captionIndex++];
+          const caption='Abbildung '+(figIndex++)+': '+esc(cleanFigureCaption(rawCaption,f,fi))+' (Eigene Aufnahme am '+esc(i.date)+')';
+          return photoBlockHtml(ph.data,caption);
+        }).join('')+
+      '</div>';
+    }).join('');
+
+  return `<!doctype html><html><head><meta charset='utf-8'><style>
+    @page{size:21cm 29.7cm;margin:2.5cm 2.5cm 2.5cm 2.5cm;}
+    body{font-family:Arial,Helvetica,sans-serif;font-size:11pt;text-align:justify;line-height:115%;mso-line-height-rule:auto;margin:0;color:#000;}
+    p{font-family:Arial,Helvetica,sans-serif;font-size:11pt;line-height:115%;mso-line-height-rule:auto;text-align:justify;margin:0 0 8pt 0;}
+    table{width:100%;border-collapse:collapse;table-layout:auto;margin:0 0 10pt 0;}
+    td{border:1px solid #999;padding:4.5pt 4.5pt;vertical-align:top;font-family:Arial,Helvetica,sans-serif;font-size:11pt;line-height:100%;mso-line-height-rule:auto;height:auto;}
+    .meta-table{width:100%;border-collapse:collapse;table-layout:auto;margin:0 0 10pt 0;}
+    .meta-table td{padding:1pt 4.5pt;line-height:100%;mso-line-height-rule:auto;height:auto;}
+    .meta-table td:first-child{font-weight:bold;white-space:nowrap;width:1%;}
+    .meta-table td:nth-child(2){width:auto;}
+    .distribution-table{width:100%;border-collapse:collapse;table-layout:auto;margin-top:4pt;}
+    .distribution-table td{padding:1pt 4.5pt;line-height:100%;mso-line-height-rule:auto;height:auto;}
+    .red{border:2px solid #c00000;padding:10px;margin:8px 0;page-break-inside:avoid;font-family:Arial,Helvetica,sans-serif;font-size:11pt;line-height:115%;mso-line-height-rule:auto;}
+    .red ul{margin:0 0 0 18pt;padding-left:0;}
+    .red li{margin:0 0 3pt 0;font-family:Arial,Helvetica,sans-serif;font-size:11pt;line-height:115%;mso-line-height-rule:auto;}
+    h2{font-family:Arial,Helvetica,sans-serif;font-size:14pt;font-weight:bold;page-break-after:avoid;margin:0 0 8pt 0;line-height:1.2;text-align:left;}
+    h3{font-family:Arial,Helvetica,sans-serif;font-size:13pt;font-weight:bold;page-break-after:avoid;margin:12pt 0 6pt 0;line-height:1.2;text-align:left;}
+    h4{font-family:Arial,Helvetica,sans-serif;font-size:11pt;font-weight:bold;page-break-after:avoid;margin:10pt 0 5pt 0;line-height:1.2;text-align:left;}
+    h4.finding-heading{font-weight:normal;text-decoration:underline;}
+    table.header-table{width:100%!important;border:0!important;border-collapse:collapse!important;margin:0!important;}
+    table.header-table td{border:0!important;padding:0;margin:0;}
+    .photo-section{page-break-before:auto;break-before:auto;margin:0;padding:0;}
+    .photo-section h3{page-break-after:auto;margin:12pt 0 4pt 0;}
+    .photo-section h4{page-break-after:auto;margin:4pt 0 3pt 0;}
+    .finding-block{page-break-inside:auto;margin:0 0 4pt 0;text-align:left;}
+    table.photo-block{width:auto!important;border:0!important;border-collapse:collapse!important;margin:0 0 6pt 0!important;page-break-inside:avoid;}
+    table.photo-block td{border:0!important;padding:0;margin:0;vertical-align:top;text-align:left;}
+    .photo-block{page-break-inside:avoid;margin:0 0 6pt 0;text-align:left;clear:none;}
+    .photo-caption{text-align:left;font-family:Arial,Helvetica,sans-serif;font-size:11pt;line-height:1.2;}
+    img.protocol-photo{border:0!important;outline:0;display:block;margin:0;text-align:left;mso-position-horizontal:left;max-width:6.43cm;}
+    .signature-block{width:100%;margin-top:60pt;border-collapse:collapse;page-break-inside:avoid;table-layout:fixed;}
+    .signature-block td{border:0;padding:6pt;vertical-align:bottom;font-family:Arial,Helvetica,sans-serif;font-size:11pt;line-height:1.2;}
+    .signature-line{border-bottom:1px solid #000;height:34pt;}
+    .signature-label{font-size:9pt;color:#333;}
+    .signature-name{font-weight:bold;margin-top:4pt;}
+    .signature-role{font-size:10pt;color:#333;}
+    .signature-place{height:34pt;border-bottom:1px solid #000;}
+  </style></head><body>
+    <table class="header-table" cellspacing="0" cellpadding="0" border="0" style="width:100%;border-collapse:collapse;border:0;margin:0;table-layout:fixed;">
+      <tr>
+        <td style="border:0;padding:0;margin:0;vertical-align:middle;text-align:left;">
+          <h2 style="margin:0;">Begehungsprotokoll</h2>
+        </td>
+        <td style="border:0;padding:0;margin:0;vertical-align:top;text-align:right;width:4.3cm;">
+          <img src="${COMPANY_LOGO}" width="154" height="63" border="0" style="width:4.07cm;height:1.66cm;max-width:4.07cm;max-height:1.66cm;border:0 none!important;mso-border-alt:none;outline:0;text-decoration:none;display:inline-block;margin:0;" alt="Firmenlogo">
+        </td>
+      </tr>
+    </table>
+    <p style="margin:0;padding:0;font-size:6pt;line-height:115%;mso-line-height-rule:auto;">&nbsp;</p>
+    <table class='meta-table'>
+      <tr><td><b>Projekt/Bauvorhaben:</b></td><td>${esc(p.name)}</td></tr>
+      <tr><td><b>Themen:</b></td><td>${esc(i.topic)}</td></tr>
+      <tr><td><b>Datum/Zeit:</b></td><td>${esc(i.date)} ${esc(i.time)}</td></tr>
+      <tr><td><b>Ort/Raum/Strecke:</b></td><td>${esc(p.location)}</td></tr>
+      <tr><td><b>Anwesende/Teilnehmer:</b></td><td>${participants}</td></tr>
+      <tr><td><b>Witterung bei Begehung:</b></td><td>${esc(i.weather)}</td></tr>
+      <tr><td><b>Protokollführung:</b></td><td>${esc(i.protocolLead)}</td></tr>
+      <tr><td><b>Bemerkung:</b></td><td>${esc(i.remark)}</td></tr>
+    </table>
+    <h3>1. Zusammenfassung:</h3>
+    <p>Die Firma ${esc(state.company.name||'')} wurde beauftragt das Projekt ${esc(p.name)} als umweltfachliche Bauüberwachung zu betreuen. Im Zuge dessen fand am ${esc(i.date)} eine umweltfachliche Begehung der Baustelle statt.</p>
+    <h3>2. Ergebnis:</h3>
+    <div class='red'>${bullets}</div>
+    ${texts}
+    <h3>3. Weiterer Verlauf:</h3>
+    <p>Im weiteren Verlauf der Baumaßnahme finden weiterhin regelmäßige Begehungen der Baustelle durch die Umweltfachliche Bauüberwachung statt.</p>
+    <table class='signature-block'>
+      <tr>
+        <td style='width:45%;padding-right:30px'><div style='border-bottom:1px solid #000;height:30px'></div><div style='margin-top:8px'>Ort, Datum</div></td>
+        <td style='width:10%'>&nbsp;</td>
+        <td style='width:45%;padding-left:30px'><div style='border-bottom:1px solid #000;height:30px'></div><div style='margin-top:8px'>Umweltfachliche Bauüberwachung</div></td>
+      </tr>
+    </table>
+    <h3>Dieses Protokoll wurde verteilt an:</h3>
+    <table class='distribution-table'>${distributionRows}</table>
+    ${(inspectionPhotos+findingPhotos).trim() ? `<div class='photo-section'>
+      <h3>4. Fotodokumentation</h3>
+      ${inspectionPhotos}
+      ${findingPhotos}
+    </div>` : ''}
+  </body></html>`;
+}
+
+/* ============================================================
+   GitHub Upload für Protokoll-Artefakte
+   Vanilla JS, kein Backend, keine externen Libraries
+   Speichert aus dieser App:
+   UBÜ Protokolle/<JJJJ_MM_TT>/<Projektname>/
+     protokoll.doc   (Word-kompatibles HTML-Dokument)
+     bilder/foto1.jpg, foto2.jpg, ...
+   Das DOC ist bewusst das bisherige Word-kompatible HTML-DOC-Format.
+   ============================================================ */
+const GH_CONFIG_STORAGE_KEY = 'ubb_github_upload_config_v1';
+const GH_APP_DATA_PATH = 'App-Daten/ubb_daten.json';
+
+function b64utf8(str){
+  return btoa(unescape(encodeURIComponent(str)));
+}
+
+function blobToB64(blob){
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=()=>{
+      const result=String(reader.result||'');
+      const comma=result.indexOf(',');
+      if(comma<0){reject(new Error('Blob konnte nicht als DataURL gelesen werden.'));return;}
+      resolve(result.slice(comma+1));
+    };
+    reader.onerror=()=>reject(new Error('Blob konnte nicht gelesen werden.'));
+    reader.readAsDataURL(blob);
+  });
+}
+
+function encodeGithubPath(path){
+  return String(path).split('/').map(seg=>encodeURIComponent(seg)).join('/');
+}
+
+function dataUrlToB64(dataUrl){
+  const s=String(dataUrl||'');
+  const comma=s.indexOf(',');
+  return comma>=0 ? s.slice(comma+1) : s;
+}
+
+function getGithubConfig(){
+  try{
+    const raw=localStorage.getItem(GH_CONFIG_STORAGE_KEY);
+    if(!raw) return null;
+    const cfg=JSON.parse(raw);
+    return {ghOwner:(cfg.ghOwner||'').trim(),ghRepo:(cfg.ghRepo||'').trim(),ghToken:(cfg.ghToken||'').trim()};
+  }catch(e){return null;}
+}
+
+function hasGithubConfig(){
+  const cfg=getGithubConfig();
+  return !!(cfg&&cfg.ghOwner&&cfg.ghRepo&&cfg.ghToken);
+}
+
+function githubConfigPanel(){
+  const cfg=getGithubConfig()||{};
+  const saved=hasGithubConfig();
+  const savedMsg=flashTarget['github-config']
+    ? `<span class="inline-success">${flashTarget['github-config']}</span>`
+    : (saved ? `<span class="inline-success">✓ GitHub-Verbindung gespeichert</span>` : '');
+  return `<hr style="border:0;border-top:1px solid var(--line);margin:14px 0">
+    <h3>GitHub-Upload</h3>
+    <p class="muted">Speichert Protokolle als <b>DOC</b> unter <b>UBÜ Protokolle/JJJJ_MM_TT/Projektname</b> und sichert die zentrale App-Datensicherung direkt in dein GitHub-Repository. Der Token wird nicht in diese Datei geschrieben, sondern nur lokal in diesem Browser gespeichert.</p>
+    <div class="grid">
+      <div><label>GitHub-Benutzername / Owner</label><input id="ghOwnerInput" type="text" value="${escAttr(cfg.ghOwner||'')}" placeholder="z. B. dein-github-name" autocomplete="username"></div>
+      <div><label>Repository-Name</label><input id="ghRepoInput" type="text" value="${escAttr(cfg.ghRepo||'')}" placeholder="z. B. begehungsprotokolle"></div>
+    </div>
+    <label>Fine-grained Personal Access Token</label>
+    <input id="ghTokenInput" type="password" value="${escAttr(cfg.ghToken||'')}" placeholder="github_pat_..." autocomplete="off">
+    <p class="muted">Der Token wird nur in diesem Browser im localStorage gespeichert. Auf dem Handy und auf dem PC musst du ihn jeweils einmal eintragen.</p>
+    <div class="row">
+      <button class="secondary" onclick="saveGithubConfigFromFields(event)">GitHub-Verbindung speichern</button>
+      <button class="secondary" onclick="clearGithubConfig()">GitHub-Konfiguration löschen</button>
+      ${savedMsg}
+    </div>
+    <p class="warn">Sicherheit: Der GitHub-Token gibt Schreibzugriff auf das freigegebene Repository. Nutze einen Fine-grained Personal Access Token nur für dieses eine Repository mit <b>Contents: Read and write</b>. Den Token niemals fest in eine öffentlich gehostete HTML-Datei schreiben.</p>`;
+}
+
+function saveGithubConfigFromFields(ev){
+  if(ev) ev.preventDefault();
+  const ghOwner=(document.getElementById('ghOwnerInput')?.value||'').trim();
+  const ghRepo=(document.getElementById('ghRepoInput')?.value||'').trim();
+  const ghToken=(document.getElementById('ghTokenInput')?.value||'').trim();
+  if(!ghOwner || !ghRepo || !ghToken){
+    toast('⚠ Bitte GitHub-Owner, Repository und Token eintragen.');
+    return false;
+  }
+  localStorage.setItem(GH_CONFIG_STORAGE_KEY, JSON.stringify({ghOwner, ghRepo, ghToken}));
+  saveArea('github-config','✅ GitHub-Verbindung gespeichert');
+  return true;
+}
+
+function openGithubConfigDialog(){
+  page='dataServer';
+  state.activeInspectionId=null;
+  render();
+  setTimeout(()=>{
+    document.getElementById('ghOwnerInput')?.focus();
+    toast('Bitte GitHub-Daten in die Textfelder eintragen.');
+  },50);
+  return false;
+}
+
+function clearGithubConfig(){
+  localStorage.removeItem(GH_CONFIG_STORAGE_KEY);
+  if(page==='dataServer') render();
+  setTimeout(()=>toast('✅ GitHub-Konfiguration wurde aus diesem Browser gelöscht.'),50);
+}
+
+function explainGithubError(error){
+  const msg=String(error&&error.message?error.message:error);
+  const lower=msg.toLowerCase();
+  if(msg.includes('401')) return 'GitHub-Fehler 401: Token ungültig oder abgelaufen. Bitte neuen Token eintragen.';
+  if(msg.includes('403') && lower.includes('resource not accessible')) return 'GitHub-Fehler 403: Resource not accessible by personal access token. Vermutlich fehlt Contents: Read and write oder das Repository ist im Token nicht freigegeben.';
+  if(msg.includes('403')) return 'GitHub-Fehler 403: Zugriff verweigert. Bitte Token-Berechtigungen und Repository-Freigabe prüfen.';
+  if(msg.includes('404')) return 'GitHub-Fehler 404: Repository oder Pfad nicht gefunden. Bitte Owner und Repository-Namen prüfen.';
+  if(msg.includes('422')) return 'GitHub-Fehler 422: Datei konnte nicht erstellt/aktualisiert werden. Oft passiert das, wenn eine vorhandene Datei ohne korrekte SHA überschrieben werden soll.';
+  return msg;
+}
+
+async function githubFetch(url, options){
+  const res=await fetch(url, options);
+  const text=await res.text();
+  if(!res.ok){
+    const shortText=text.length>800 ? text.slice(0,800)+'…' : text;
+    throw new Error('GitHub API Fehler '+res.status+': '+shortText);
+  }
+  if(!text) return null;
+  try{return JSON.parse(text);}catch(e){return text;}
+}
+
+async function ghPut(path, contentB64, message){
+  const cfg=getGithubConfig();
+  if(!cfg||!cfg.ghOwner||!cfg.ghRepo||!cfg.ghToken) throw new Error('GitHub-Konfiguration fehlt.');
+  const encodedPath=encodeGithubPath(path);
+  const url='https://api.github.com/repos/'+encodeURIComponent(cfg.ghOwner)+'/'+encodeURIComponent(cfg.ghRepo)+'/contents/'+encodedPath;
+  const headers={
+    'Authorization':'Bearer '+cfg.ghToken,
+    'Accept':'application/vnd.github+json',
+    'X-GitHub-Api-Version':'2022-11-28',
+    'Content-Type':'application/json'
+  };
+  let sha=null;
+  try{
+    const existing=await githubFetch(url,{method:'GET',headers});
+    if(existing&&existing.sha) sha=existing.sha;
+  }catch(err){
+    const m=String(err&&err.message?err.message:err);
+    if(!m.includes('404')) console.warn('GitHub GET vor PUT fehlgeschlagen, versuche trotzdem PUT:', err);
+  }
+  const body={message, content:contentB64};
+  if(sha) body.sha=sha;
+  return githubFetch(url,{method:'PUT',headers,body:JSON.stringify(body)});
+}
+
+function getGithubProtocolDateParts(i){
+  const raw=(i&&typeof i.date==='string') ? i.date.trim() : '';
+  const match=raw.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if(match){
+    return {
+      year:match[1],
+      month:match[2],
+      day:match[3],
+      date:match[1]+'-'+match[2]+'-'+match[3],
+      folder:match[1]+'_'+match[2]+'_'+match[3]
+    };
+  }
+  const now=new Date();
+  const year=String(now.getFullYear());
+  const month=String(now.getMonth()+1).padStart(2,'0');
+  const day=String(now.getDate()).padStart(2,'0');
+  return {year, month, day, date:year+'-'+month+'-'+day, folder:year+'_'+month+'_'+day};
+}
+
+function cleanGithubTitle(raw){
+  let title=String(raw||'').trim();
+  if(!title || /^\(.*\)$/.test(title)) title=prompt('Titel für den GitHub-Ordner eingeben:', 'Protokoll') || 'Protokoll';
+  title=String(title).replace(/[\\/:*?"<>|]/g,'_').replace(/\s+/g,' ').trim();
+  if(!title) title='Protokoll';
+  if(title.length>80) title=title.slice(0,80).trim();
+  return title;
+}
+
+function collectGithubImages(i){
+  const out=[];
+  (i.photos||[]).forEach((ph,idx)=>out.push({b64:dataUrlToB64(ph.data), caption:ph.caption||('Übersichtsfoto '+(idx+1))}));
+  (i.findings||[]).forEach((f,fi)=>{
+    (f.photos||[]).forEach((ph,pi)=>out.push({b64:dataUrlToB64(ph.data), caption:ph.caption||('Feststellung '+(fi+1)+', Foto '+(pi+1))}));
+  });
+  return out.filter(x=>!!x.b64);
+}
+
+function getGithubSaveButton(btn){
+  if(btn) return btn;
+  const byId=document.getElementById('saveGithubBtn');
+  if(byId) return byId;
+  const byData=document.querySelector('[data-action="save-github"]');
+  if(byData) return byData;
+  if(document.activeElement && document.activeElement.tagName && document.activeElement.tagName.toLowerCase()==='button') return document.activeElement;
+  return null;
+}
+function setGithubButtonState(button,text,disabled){
+  if(!button) return;
+  if(!button.dataset.originalText) button.dataset.originalText=button.textContent||'Nach GitHub speichern';
+  button.textContent=text;
+  button.disabled=!!disabled;
+}
+function resetGithubButton(button){
+  if(!button) return;
+  button.textContent=button.dataset.originalText||'Nach GitHub speichern';
+  button.disabled=false;
+}
+
+// Stellt alle Fotos einer Begehung über das iOS-Teilen-Menü bereit, damit der
+// Nutzer sie mit einem Tipp in die Fotomediathek sichern kann. Eine Web-App darf
+// aus Sicherheitsgründen nicht selbst in die Mediathek schreiben; das Teilen-Menü
+// ist der offizielle Weg. Das Teilen mehrerer Dateien wird nicht von jedem Gerät
+// gleich gut unterstützt, daher mit Einzeldatei-Fallback.
+function dataUrlToFile(dataUrl, filename){
+  const s=String(dataUrl||'');
+  const comma=s.indexOf(',');
+  const meta=s.slice(0,comma);
+  const b64=comma>=0 ? s.slice(comma+1) : s;
+  const mime=(meta.match(/data:([^;]+)/)||[])[1] || 'image/jpeg';
+  const bin=atob(b64);
+  const bytes=new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i);
+  return new File([bytes], filename, {type:mime});
+}
+function collectAllPhotos(i){
+  const out=[];
+  (i.photos||[]).forEach((ph,ix)=>{ if(ph&&ph.data) out.push(ph.data); });
+  (i.findings||[]).forEach(f=>{ (f.photos||[]).forEach(ph=>{ if(ph&&ph.data) out.push(ph.data); }); });
+  return out;
+}
+async function sharePhotosToLibrary(iid, btn){
+  const i=byId(state.inspections,iid);
+  if(!i){alert('Begehung nicht gefunden.'); return;}
+  const datas=collectAllPhotos(i);
+  if(!datas.length){alert('Diese Begehung enthält keine Fotos.'); return;}
+  const dateTag=(i.date||'').replace(/[^0-9]/g,'') || 'foto';
+  const files=datas.map((d,ix)=>dataUrlToFile(d, 'Begehung_'+dateTag+'_'+(ix+1)+'.jpg'));
+
+  // 1) Bevorzugt: mehrere Dateien auf einmal teilen, wenn das Gerät es kann.
+  try{
+    if(navigator.canShare && navigator.canShare({files})){
+      await navigator.share({files, title:'Begehungsfotos', text:'Begehungsfotos'});
+      return;
+    }
+  }catch(e){
+    if(e && e.name==='AbortError') return; // Nutzer hat abgebrochen
+    console.warn('Teilen mehrerer Dateien fehlgeschlagen, versuche einzeln:', e);
+  }
+
+  // 2) Fallback: Dateien nacheinander einzeln teilen.
+  let shared=0;
+  for(let ix=0; ix<files.length; ix++){
+    try{
+      if(navigator.canShare && navigator.canShare({files:[files[ix]]})){
+        await navigator.share({files:[files[ix]], title:'Begehungsfoto'});
+        shared++;
+      }
+    }catch(e){
+      if(e && e.name==='AbortError') break;
+      console.warn('Einzelfoto teilen fehlgeschlagen:', e);
+    }
+  }
+  if(shared===0){
+    alert('Das Teilen von Fotos wird auf diesem Gerät/Browser leider nicht unterstützt. Du kannst die Fotos stattdessen aus dem GitHub-Repository im Ordner „bilder“ herunterladen.');
+  }
+}
+async function saveProtocolToGithub(iid, triggerButton){
+  const button=getGithubSaveButton(triggerButton);
+  try{
+    const i=byId(state.inspections,iid);
+    if(!i){alert('Begehung nicht gefunden.'); return;}
+    const p=byId(state.projects,i.projectId)||{};
+    if(!hasGithubConfig()){
+      page='dataServer';
+      state.activeInspectionId=null;
+      render();
+      setTimeout(()=>{
+        document.getElementById('ghOwnerInput')?.focus();
+        toast('⚠ Bitte GitHub-Owner, Repository und Token eintragen und speichern.');
+      },50);
+      return;
+    }
+    setGithubButtonState(button,'Bereite Upload vor …',true);
+    const dateParts=getGithubProtocolDateParts(i);
+    const title=cleanGithubTitle(p.name||'Protokoll');
+    const base='UBÜ Protokolle/'+dateParts.folder+'/'+title;
+    const commitBase='Protokoll speichern: '+title+' ('+dateParts.date+')';
+
+    setGithubButtonState(button,'Erzeuge Protokoll …',true);
+    const ai=await generateTexts(i,p);
+    const iDoc=await inspectionWithNormalizedPhotos(i);
+    const html=protocolHtml(iDoc,p,ai);
+    const allImages=collectGithubImages(i);
+
+    setGithubButtonState(button,'Speichere … DOC',true);
+    const docBlob=new Blob([html],{type:'application/msword;charset=utf-8'});
+    await ghPut(base+'/protokoll.doc', await blobToB64(docBlob), commitBase+' - Word-Dokument');
+
+    for(let idx=0; idx<allImages.length; idx++){
+      setGithubButtonState(button,'Speichere … Bild '+(idx+1)+'/'+allImages.length,true);
+      await ghPut(base+'/bilder/foto'+(idx+1)+'.jpg', allImages[idx].b64, commitBase+' - Foto '+(idx+1));
+    }
+
+    setGithubButtonState(button,'Sichere App-Daten …',true);
+    save();
+    const appBackup=buildAppDataBackup();
+    await ghPut(
+      GH_APP_DATA_PATH,
+      b64utf8(JSON.stringify(appBackup,null,2)),
+      'App-Daten sichern nach Protokollupload '+new Date().toLocaleString('de-DE')
+    );
+
+    setGithubButtonState(button,'Gespeichert ✓',true);
+    alert('Protokoll und App-Daten erfolgreich nach GitHub gespeichert:\n\nProtokoll:\n'+base+'\n\nApp-Daten:\n'+GH_APP_DATA_PATH);
+  }catch(err){
+    console.error(err);
+    alert('Speichern nach GitHub fehlgeschlagen:\n\n'+explainGithubError(err));
+  }finally{
+    setTimeout(()=>resetGithubButton(button),900);
+  }
+}
+
+function b64ToUtf8(b64){
+  const bin=atob(String(b64||'').replace(/\n/g,''));
+  const bytes=new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i);
+  return new TextDecoder('utf-8').decode(bytes);
+}
+
+async function ghGet(path){
+  const cfg=getGithubConfig();
+  if(!cfg||!cfg.ghOwner||!cfg.ghRepo||!cfg.ghToken) throw new Error('GitHub-Konfiguration fehlt.');
+  const encodedPath=encodeGithubPath(path);
+  const url='https://api.github.com/repos/'+encodeURIComponent(cfg.ghOwner)+'/'+encodeURIComponent(cfg.ghRepo)+'/contents/'+encodedPath;
+  const headers={
+    'Authorization':'Bearer '+cfg.ghToken,
+    'Accept':'application/vnd.github+json',
+    'X-GitHub-Api-Version':'2022-11-28'
+  };
+  return githubFetch(url,{method:'GET',headers});
+}
+
+function setPlainButtonState(button,text,disabled){
+  if(!button) return;
+  if(!button.dataset.originalText) button.dataset.originalText=button.textContent||'Speichern';
+  button.textContent=text;
+  button.disabled=!!disabled;
+}
+function resetPlainButton(button){
+  if(!button) return;
+  button.textContent=button.dataset.originalText||'Speichern';
+  button.disabled=false;
+}
+
+function buildAppDataBackup(){
+  // Keine geheimen Schlüssel in die GitHub-Sicherungsdatei schreiben.
+  // Fotos werden NICHT in diese zentrale Textsicherung geschrieben, da die Datei
+  // sonst zu groß für die GitHub-Schnittstelle wird. Die Fotos liegen ohnehin
+  // einzeln im Bilder-Ordner jedes Protokoll-Uploads und lokal in IndexedDB.
+  // Die Foto-Einträge bleiben als leere Platzhalter erhalten, damit die
+  // Anzahl/Struktur sichtbar bleibt; die schweren Bilddaten werden entfernt.
+  const data=JSON.parse(JSON.stringify(state));
+  if(data.settings){
+    data.settings.apiKey='';
+    data.settings.apiKeySaved=false;
+  }
+  const stripPhotos=arr=>{ if(Array.isArray(arr)) arr.forEach(ph=>{ if(ph) ph.data=''; }); };
+  if(Array.isArray(data.inspections)){
+    data.inspections.forEach(insp=>{
+      stripPhotos(insp.photos);
+      if(Array.isArray(insp.findings)) insp.findings.forEach(f=>stripPhotos(f.photos));
+    });
+  }
+  return {
+    backupVersion:2,
+    erstellt:new Date().toISOString(),
+    app:'UBB Begehungsprotokoll',
+    storageKey:KEY,
+    fotosEnthalten:false,
+    daten:data
+  };
+}
+
+async function saveAppDataToGithub(triggerButton){
+  const button=triggerButton||document.getElementById('saveAppDataGithubBtn');
+  try{
+    save();
+    if(!hasGithubConfig()){
+      openGithubConfigDialog();
+      setTimeout(()=>toast('⚠ Bitte GitHub-Owner, Repository und Token eintragen und speichern.'),50);
+      return;
+    }
+    setPlainButtonState(button,'Speichere App-Daten …',true);
+    const backup=buildAppDataBackup();
+    const json=JSON.stringify(backup,null,2);
+    await ghPut(GH_APP_DATA_PATH, b64utf8(json), 'App-Daten sichern '+new Date().toLocaleString('de-DE'));
+    setPlainButtonState(button,'Gespeichert ✓',true);
+    flashTarget['github-app-data']='✅ App-Daten in GitHub gespeichert';
+    render();
+    setTimeout(()=>{delete flashTarget['github-app-data']; if(page==='dataServer') render();},2200);
+  }catch(err){
+    console.error(err);
+    alert('App-Daten konnten nicht nach GitHub gespeichert werden:\n\n'+explainGithubError(err));
+  }finally{
+    setTimeout(()=>resetPlainButton(button),900);
+  }
+}
+
+async function restoreAppDataFromGithub(triggerButton){
+  const button=triggerButton||document.getElementById('loadAppDataGithubBtn');
+  try{
+    if(!hasGithubConfig()){
+      openGithubConfigDialog();
+      setTimeout(()=>toast('⚠ Bitte GitHub-Owner, Repository und Token eintragen und speichern.'),50);
+      return;
+    }
+    if(!confirm('App-Daten wirklich aus GitHub wiederherstellen?\n\nDie aktuell im Browser gespeicherten Daten werden ersetzt.')) return;
+    setPlainButtonState(button,'Lade App-Daten …',true);
+    const file=await ghGet(GH_APP_DATA_PATH);
+    if(!file || !file.content) throw new Error('Die GitHub-Sicherungsdatei enthält keinen lesbaren Inhalt.');
+    const text=b64ToUtf8(file.content);
+    const parsed=JSON.parse(text);
+    const restored=parsed && parsed.daten ? parsed.daten : parsed;
+    if(!restored || typeof restored!=='object' || !Array.isArray(restored.projects) || !Array.isArray(restored.inspections)){
+      throw new Error('Die Datei App-Daten/ubb_daten.json passt nicht zur App-Datenstruktur.');
+    }
+    // Die zentrale Sicherung enthält keine Fotodaten (zu groß für GitHub).
+    // Damit beim Wiederherstellen auf DIESEM Gerät vorhandene lokale Fotos nicht
+    // verloren gehen, werden sie aus dem aktuellen Stand anhand der IDs wieder
+    // in die wiederhergestellten Daten eingesetzt, wo dort keine Fotodaten stehen.
+    try{
+      const oldById={};
+      (state.inspections||[]).forEach(insp=>{ oldById[insp.id]=insp; });
+      const mergePhotos=(newArr,oldArr)=>{
+        if(!Array.isArray(newArr)||!Array.isArray(oldArr)) return;
+        newArr.forEach((ph,ix)=>{ if(ph && (!ph.data || ph.data==='') && oldArr[ix] && oldArr[ix].data){ ph.data=oldArr[ix].data; } });
+      };
+      (restored.inspections||[]).forEach(insp=>{
+        const old=oldById[insp.id]; if(!old) return;
+        mergePhotos(insp.photos, old.photos);
+        if(Array.isArray(insp.findings)){
+          const oldF={}; (old.findings||[]).forEach(f=>{ oldF[f.id]=f; });
+          insp.findings.forEach(f=>{ const of=oldF[f.id]; if(of) mergePhotos(f.photos, of.photos); });
+        }
+      });
+    }catch(mErr){ console.warn('Foto-Zusammenführung beim Wiederherstellen übersprungen:', mErr); }
+    state=restored;
+    if(!state.settings) state.settings={apiKey:'',apiKeySaved:false,model:'gpt-4o-mini'};
+    if(state.settings.apiKeySaved===undefined) state.settings.apiKeySaved=!!state.settings.apiKey;
+    if(!state.company) state.company={name:'',address:'',phone:'',email:'',website:'',open:true};
+    if(state.company.open===undefined) state.company.open=!state.company.name;
+    state.activeInspectionId=null;
+    page='home';
+    save();
+    render();
+    setTimeout(()=>toast('✅ App-Daten aus GitHub wiederhergestellt.'),50);
+  }catch(err){
+    console.error(err);
+    alert('App-Daten konnten nicht aus GitHub wiederhergestellt werden:\n\n'+explainGithubError(err));
+  }finally{
+    setTimeout(()=>resetPlainButton(button),900);
+  }
+}
+
+async function saveToGithub(){
+  if(state.activeInspectionId) return saveProtocolToGithub(state.activeInspectionId);
+  alert('Bitte öffne zuerst eine Begehung und klicke dort auf „Protokoll erstellen“.');
+}
+
+function exportData(){downloadBlob(JSON.stringify(state,null,2),'ubb_daten.json','application/json')} async function importData(file){if(!file)return;state=JSON.parse(await file.text());save();render()} function downloadBlob(content,name,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+function employeeCheckboxes(selected,prefix){return state.employees.map(e=>`<label class="pill"><input type="checkbox" ${selected.includes(e.id)?'checked':''} onchange="${prefix}'${e.id}')"> ${esc(e.name||'Mitarbeiter')}</label>`).join('')||'<p class="muted">Noch keine Mitarbeiter angelegt.</p>'}
+function inp(label,path,type='text'){return `<label>${label}</label><input type="${type}" data-path="${path}" value="${escAttr(path.split('.').reduce((o,k)=>o?.[k],state))}">`} function ta(label,path){return `<label>${label}</label><textarea data-path="${path}">${esc(path.split('.').reduce((o,k)=>o?.[k],state))}</textarea>`} function rawInp(label,val,onchange){let type=onchange==='date'?'date':'text', oc=onchange&&onchange!=='date'?`oninput="${onchange}"`:'';return `<div><label>${label}</label><input type="${type}" value="${escAttr(val)}" ${oc}></div>`} function rawTa(label,val,onchange){let oc=onchange?`oninput="${onchange}"`:'';return `<label>${label}</label><textarea ${oc}>${esc(val)}</textarea>`}
+function bindInputs(){document.querySelectorAll('[data-path]').forEach(el=>el.oninput=()=>{let parts=el.dataset.path.split('.'),o=state;while(parts.length>1)o=o[parts.shift()];o[parts[0]]=el.value;save()})}
+// App-Start: zuerst IndexedDB öffnen und Daten laden, dann rendern.
+async function startApp(){
+  try{ _idb=await idbOpen(); }
+  catch(e){ console.warn('IndexedDB nicht verfügbar, nutze localStorage:', e); _idb=null; }
+  let loaded=null;
+  if(_idb){
+    try{ loaded=await idbGet(KEY); }catch(e){ console.warn('IDB-Laden fehlgeschlagen:', e); }
+  }
+  if(!loaded){
+    try{
+      const ls=localStorage.getItem(KEY);
+      if(ls){
+        loaded=JSON.parse(ls);
+        if(_idb){ try{ await idbSet(KEY, loaded); }catch(e){ console.warn('Migration nach IDB fehlgeschlagen:', e); } }
+      }
+    }catch(e){ console.warn('localStorage-Migration fehlgeschlagen:', e); }
+  }
+  if(loaded && typeof loaded==='object') state=loaded;
+  normalizeState();
+  render();
+}
+startApp();
+</script>
+</body>
+</html>
