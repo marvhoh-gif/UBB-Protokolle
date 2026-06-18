@@ -1,6 +1,6 @@
 {
   "backupVersion": 2,
-  "erstellt": "2026-06-18T09:21:44.727Z",
+  "erstellt": "2026-06-18T09:39:25.999Z",
   "app": "UBB Begehungsprotokoll",
   "storageKey": "ubb_html_app_04",
   "fotosEnthalten": false,
@@ -41,19 +41,22 @@
     ],
     "inspections": [
       {
-        "id": "mqjaj4s6crc0e2",
+        "id": "mqjb5w3ht9d0zp",
         "projectId": "mqj9lltla8okgy",
         "topic": "Baustellenbegehung",
         "date": "2026-06-18",
-        "time": "11:21",
+        "time": "11:38",
         "weather": "26 °C, wolkenlos, trocken, Wind 9 km/h",
         "protocolLead": "Marvin Hohmann",
         "remark": "",
         "participants": [
-          "mqj9okp941hqja",
-          "mqja6kjnu5uf6u",
+          "mqjaiijqx16vcu",
+          "mqjac8q66czj8u",
           "mqja79jz6t0qbg",
-          "mqj9l10golfpda"
+          "mqj9l10golfpda",
+          "mqja6kjnu5uf6u",
+          "mqj9okp941hqja",
+          "mqjb5tppzz3pq5"
         ],
         "photos": [],
         "findings": [],
@@ -67,54 +70,75 @@
       "workMail": "marvin.hohmann@ptb-ingenieure.de",
       "apiKeySaved": false
     },
-    "activeInspectionId": "mqjaj4s6crc0e2",
+    "activeInspectionId": "mqjb5w3ht9d0zp",
     "contacts": [
       {
         "id": "mqj9l10golfpda",
         "anrede": "Herr",
-        "name": "Testmann",
-        "company": "Testo",
+        "company": "Tee",
         "role": "Testperson",
-        "open": false
+        "open": false,
+        "vorname": "Tiesto ",
+        "nachname": "Testmann",
+        "confirmDelete": false
       },
       {
         "id": "mqj9okp941hqja",
         "anrede": "Herr",
-        "name": "Pan,Peter",
         "company": "Firma",
         "role": "Bauleiter",
-        "open": false
+        "open": false,
+        "vorname": "Peter",
+        "nachname": "Pan",
+        "confirmDelete": false
       },
       {
         "id": "mqja6kjnu5uf6u",
-        "anrede": "",
-        "name": "Sandberg, Toni",
+        "anrede": "Herr",
         "company": "",
         "role": "",
-        "open": false
+        "open": false,
+        "vorname": "Toni",
+        "nachname": "Sandberg",
+        "confirmDelete": false
       },
       {
         "id": "mqja79jz6t0qbg",
-        "anrede": "",
-        "name": "Claus, Dieter",
+        "anrede": "Herr",
         "company": "",
         "role": "",
-        "open": false
+        "open": false,
+        "vorname": "Dieter",
+        "nachname": "Claus",
+        "confirmDelete": false
       },
       {
         "id": "mqjac8q66czj8u",
         "anrede": "Herr",
-        "name": "Peter",
         "company": "Hohen ",
         "role": "Läufer ",
-        "open": false
+        "open": false,
+        "vorname": "Randal",
+        "nachname": "Kolo",
+        "confirmDelete": false
       },
       {
         "id": "mqjaiijqx16vcu",
         "anrede": "Herr",
-        "name": "Samir, Lorenz",
         "company": "Formens",
         "role": "Zuhälter",
+        "open": false,
+        "vorname": "Lorenz",
+        "nachname": "Samir",
+        "confirmDelete": false
+      },
+      {
+        "id": "mqjb5tppzz3pq5",
+        "anrede": "Frau",
+        "vorname": "Samira",
+        "nachname": "Sako",
+        "company": "Zuzu",
+        "role": "Lala",
         "open": false
       }
     ]
