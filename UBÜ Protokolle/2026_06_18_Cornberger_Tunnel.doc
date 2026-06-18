@@ -1,0 +1,77 @@
+<!doctype html><html><head><meta charset='utf-8'><style>
+    @page{size:21cm 29.7cm;margin:2.5cm 2.5cm 2.5cm 2.5cm;}
+    body{font-family:Arial,Helvetica,sans-serif;font-size:11pt;text-align:justify;line-height:115%;mso-line-height-rule:auto;margin:0;color:#000;}
+    p{font-family:Arial,Helvetica,sans-serif;font-size:11pt;line-height:115%;mso-line-height-rule:auto;text-align:justify;margin:0 0 8pt 0;}
+    table{width:100%;border-collapse:collapse;table-layout:auto;margin:0 0 10pt 0;}
+    td{border:1px solid #999;padding:4.5pt 4.5pt;vertical-align:top;font-family:Arial,Helvetica,sans-serif;font-size:11pt;line-height:100%;mso-line-height-rule:auto;height:auto;}
+    .meta-table{width:100%;border-collapse:collapse;table-layout:auto;margin:0 0 10pt 0;}
+    .meta-table td{padding:1pt 4.5pt;line-height:100%;mso-line-height-rule:auto;height:auto;}
+    .meta-table td:first-child{font-weight:bold;white-space:nowrap;width:1%;}
+    .meta-table td:nth-child(2){width:auto;}
+    .distribution-table{width:100%;border-collapse:collapse;table-layout:auto;margin-top:4pt;}
+    .distribution-table td{padding:1pt 4.5pt;line-height:100%;mso-line-height-rule:auto;height:auto;}
+    .red{border:2px solid #c00000;padding:10px;margin:8px 0;page-break-inside:avoid;font-family:Arial,Helvetica,sans-serif;font-size:11pt;line-height:115%;mso-line-height-rule:auto;}
+    .red ul{margin:0 0 0 18pt;padding-left:0;}
+    .red li{margin:0 0 3pt 0;font-family:Arial,Helvetica,sans-serif;font-size:11pt;line-height:115%;mso-line-height-rule:auto;}
+    h2{font-family:Arial,Helvetica,sans-serif;font-size:14pt;font-weight:bold;page-break-after:avoid;margin:0 0 8pt 0;line-height:1.2;text-align:left;}
+    h3{font-family:Arial,Helvetica,sans-serif;font-size:13pt;font-weight:bold;page-break-after:avoid;margin:12pt 0 6pt 0;line-height:1.2;text-align:left;}
+    h4{font-family:Arial,Helvetica,sans-serif;font-size:11pt;font-weight:bold;page-break-after:avoid;margin:10pt 0 5pt 0;line-height:1.2;text-align:left;}
+    h4.finding-heading{font-weight:normal;text-decoration:underline;}
+    table.header-table{width:100%!important;border:0!important;border-collapse:collapse!important;margin:0!important;}
+    table.header-table td{border:0!important;padding:0;margin:0;}
+    .photo-section{page-break-before:auto;break-before:auto;margin:0;padding:0;}
+    .photo-section h3{page-break-after:auto;margin:12pt 0 4pt 0;}
+    .photo-section h4{page-break-after:auto;margin:4pt 0 3pt 0;}
+    .finding-block{page-break-inside:auto;margin:0 0 4pt 0;text-align:left;}
+    table.photo-block{width:auto!important;border:0!important;border-collapse:collapse!important;margin:0 0 6pt 0!important;page-break-inside:avoid;}
+    table.photo-block td{border:0!important;padding:0;margin:0;vertical-align:top;text-align:left;}
+    .photo-block{page-break-inside:avoid;margin:0 0 6pt 0;text-align:left;clear:none;}
+    .photo-caption{text-align:left;font-family:Arial,Helvetica,sans-serif;font-size:11pt;line-height:1.2;}
+    img.protocol-photo{border:0!important;outline:0;display:block;margin:0;text-align:left;mso-position-horizontal:left;max-width:6.43cm;}
+    .signature-block{width:100%;margin-top:60pt;border-collapse:collapse;page-break-inside:avoid;table-layout:fixed;}
+    .signature-block td{border:0;padding:6pt;vertical-align:bottom;font-family:Arial,Helvetica,sans-serif;font-size:11pt;line-height:1.2;}
+    .signature-line{border-bottom:1px solid #000;height:34pt;}
+    .signature-label{font-size:9pt;color:#333;}
+    .signature-name{font-weight:bold;margin-top:4pt;}
+    .signature-role{font-size:10pt;color:#333;}
+    .signature-place{height:34pt;border-bottom:1px solid #000;}
+  </style></head><body>
+    <table class="header-table" cellspacing="0" cellpadding="0" border="0" style="width:100%;border-collapse:collapse;border:0;margin:0;table-layout:fixed;">
+      <tr>
+        <td style="border:0;padding:0;margin:0;vertical-align:middle;text-align:left;">
+          <h2 style="margin:0;">Begehungsprotokoll</h2>
+        </td>
+        <td style="border:0;padding:0;margin:0;vertical-align:top;text-align:right;width:4.3cm;">
+          <img src="data:image/jpeg;base64,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" width="154" height="63" border="0" style="width:4.07cm;height:1.66cm;max-width:4.07cm;max-height:1.66cm;border:0 none!important;mso-border-alt:none;outline:0;text-decoration:none;display:inline-block;margin:0;" alt="Firmenlogo">
+        </td>
+      </tr>
+    </table>
+    <p style="margin:0;padding:0;font-size:6pt;line-height:115%;mso-line-height-rule:auto;">&nbsp;</p>
+    <table class='meta-table'>
+      <tr><td><b>Projekt/Bauvorhaben:</b></td><td>Cornberger Tunnel</td></tr>
+      <tr><td><b>Themen:</b></td><td>Baustellenbegehung</td></tr>
+      <tr><td><b>Datum/Zeit:</b></td><td>2026-06-18 11:21</td></tr>
+      <tr><td><b>Ort/Raum/Strecke:</b></td><td></td></tr>
+      <tr><td><b>Anwesende/Teilnehmer:</b></td><td>Marvin Hohmann<br>Herr Pan<br>Sandberg, Toni<br>Claus, Dieter<br>Herr Testmann</td></tr>
+      <tr><td><b>Witterung bei Begehung:</b></td><td>26 °C, wolkenlos, trocken, Wind 9 km/h</td></tr>
+      <tr><td><b>Protokollführung:</b></td><td>Marvin Hohmann</td></tr>
+      <tr><td><b>Bemerkung:</b></td><td></td></tr>
+    </table>
+    <h3>1. Zusammenfassung:</h3>
+    <p>Die Firma PTB Ingenieurbüro Magdeburg GmbH wurde beauftragt das Projekt Cornberger Tunnel als umweltfachliche Bauüberwachung zu betreuen. Im Zuge dessen fand am 2026-06-18 eine umweltfachliche Begehung der Baustelle statt.</p>
+    <h3>2. Ergebnis:</h3>
+    <div class='red'>Im Zuge der Begehung wurden keine umweltfachlichen Mängel festgestellt.</div>
+    
+    <h3>3. Weiterer Verlauf:</h3>
+    <p>Im weiteren Verlauf der Baumaßnahme finden weiterhin regelmäßige Begehungen der Baustelle durch die Umweltfachliche Bauüberwachung statt.</p>
+    <table class='signature-block'>
+      <tr>
+        <td style='width:45%;padding-right:30px'><div style='border-bottom:1px solid #000;height:30px'></div><div style='margin-top:8px'>Ort, Datum</div></td>
+        <td style='width:10%'>&nbsp;</td>
+        <td style='width:45%;padding-left:30px'><div style='border-bottom:1px solid #000;height:30px'></div><div style='margin-top:8px'>Umweltfachliche Bauüberwachung</div></td>
+      </tr>
+    </table>
+    <h3>Dieses Protokoll wurde verteilt an:</h3>
+    <table class='distribution-table'><tr><td>Herr Samir, Lorenz</td><td>Formens</td><td>Zuhälter</td></tr></table>
+    
+  </body></html>
