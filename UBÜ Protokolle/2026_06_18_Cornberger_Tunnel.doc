@@ -5,7 +5,7 @@
     table{width:100%;border-collapse:collapse;table-layout:auto;margin:0 0 10pt 0;}
     td{border:1px solid #999;padding:4.5pt 4.5pt;vertical-align:top;font-family:Arial,Helvetica,sans-serif;font-size:11pt;line-height:100%;mso-line-height-rule:auto;height:auto;}
     .meta-table{width:100%;border-collapse:collapse;table-layout:auto;margin:0 0 10pt 0;}
-    .meta-table td{padding:1pt 4.5pt;line-height:100%;mso-line-height-rule:auto;height:auto;}
+    .meta-table td{padding:1pt 4.5pt;line-height:100%;mso-line-height-rule:auto;height:auto;text-align:left;}
     .meta-table td:first-child{font-weight:bold;white-space:nowrap;width:1%;}
     .meta-table td:nth-child(2){width:auto;}
     .distribution-table{width:100%;border-collapse:collapse;table-layout:auto;margin-top:4pt;}
@@ -50,9 +50,9 @@
     <table class='meta-table'>
       <tr><td><b>Projekt/Bauvorhaben:</b></td><td>Cornberger Tunnel</td></tr>
       <tr><td><b>Themen:</b></td><td>Baustellenbegehung</td></tr>
-      <tr><td><b>Datum/Zeit:</b></td><td>2026-06-18 11:21</td></tr>
+      <tr><td><b>Datum/Zeit:</b></td><td>2026-06-18 11:38</td></tr>
       <tr><td><b>Ort/Raum/Strecke:</b></td><td></td></tr>
-      <tr><td><b>Anwesende/Teilnehmer:</b></td><td>Marvin Hohmann<br>Herr Pan<br>Sandberg, Toni<br>Claus, Dieter<br>Herr Testmann</td></tr>
+      <tr><td><b>Anwesende/Teilnehmer:</b></td><td>Marvin Hohmann<br>Herr Samir<br>Herr Kolo<br>Herr Claus<br>Herr Testmann<br>Herr Sandberg<br>Herr Pan<br>Frau Sako</td></tr>
       <tr><td><b>Witterung bei Begehung:</b></td><td>26 °C, wolkenlos, trocken, Wind 9 km/h</td></tr>
       <tr><td><b>Protokollführung:</b></td><td>Marvin Hohmann</td></tr>
       <tr><td><b>Bemerkung:</b></td><td></td></tr>
