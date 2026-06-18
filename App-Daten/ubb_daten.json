@@ -1,58 +1,65 @@
 {
   "backupVersion": 2,
-  "erstellt": "2026-06-18T09:46:37.200Z",
+  "erstellt": "2026-06-18T10:09:24.287Z",
   "app": "UBB Begehungsprotokoll",
   "storageKey": "ubb_html_app_04",
   "fotosEnthalten": false,
   "daten": {
     "company": {
-      "name": "PTB Ingenieurbüro Magdeburg GmbH",
-      "address": "Genthin Straße 26\n39114 Magdeburg",
+      "name": "PTB Ingenieure Magdeburg GmbH",
+      "address": "Genthiner Straße 26\n39114 Magdeburg",
       "phone": "",
       "email": "",
       "website": "",
-      "open": false,
-      "logo": ""
+      "open": true
     },
     "employees": [
       {
-        "id": "mqggoatazqn06a",
+        "id": "mqgqovl8bg6kjw",
         "name": "Marvin Hohmann",
         "role": "Umweltfachliche Bauüberwachung",
-        "email": "",
+        "email": "Marvin.Hohmann@PTB-Ingenieure.de",
         "phone": "",
         "open": false
       }
     ],
     "projects": [
       {
-        "id": "mqj9lltla8okgy",
+        "id": "mqgqtep2z9058w",
         "name": "Cornberger Tunnel",
         "number": "",
-        "client": "",
-        "location": "",
+        "client": "DB InfraGO",
+        "location": "Cornberger Tunnel Strecke 3600",
         "notes": "",
         "distribution": [
-          "mqjaiijqx16vcu"
+          "mqjc16v9iwrusb",
+          "mqjc16v95zz8zw",
+          "mqjc1thp9j2op3",
+          "mqjc1thph9u5yn",
+          "mqjc1thp6hvjqt",
+          "mqjc1thp1jxoaf",
+          "mqjc1thp816egn",
+          "mqjc1thpu9jsuo",
+          "mqjc1thpskcw3i",
+          "mqjc1thprtqef1"
         ],
-        "standardParticipants": [],
+        "standardParticipants": [
+          "mqgqovl8bg6kjw"
+        ],
         "open": false
       }
     ],
     "inspections": [
       {
-        "id": "mqjbf81my4n8cp",
-        "projectId": "mqj9lltla8okgy",
+        "id": "mqjc77zqp3kpcx",
+        "projectId": "mqgqtep2z9058w",
         "topic": "Baustellenbegehung",
         "date": "2026-06-18",
-        "time": "11:46",
+        "time": "12:08",
         "weather": "27 °C, wolkenlos, trocken, Wind 10 km/h",
         "protocolLead": "Marvin Hohmann",
         "remark": "",
-        "participants": [
-          "mqjb5tppzz3pq5",
-          "mqj9okp941hqja"
-        ],
+        "participants": [],
         "photos": [],
         "findings": [],
         "status": "offen"
@@ -60,80 +67,164 @@
     ],
     "settings": {
       "apiKey": "",
+      "apiKeySaved": false,
       "model": "gpt-4o-mini",
-      "privateMail": "marvhoh@gmail.com",
-      "workMail": "marvin.hohmann@ptb-ingenieure.de",
-      "apiKeySaved": false
+      "privateMail": "",
+      "workMail": ""
     },
-    "activeInspectionId": "mqjbf81my4n8cp",
+    "activeInspectionId": null,
     "contacts": [
       {
-        "id": "mqj9l10golfpda",
-        "anrede": "Herr",
-        "company": "Tee",
-        "role": "Testperson",
-        "open": false,
-        "vorname": "Tiesto ",
-        "nachname": "Testmann",
-        "confirmDelete": false
-      },
-      {
-        "id": "mqj9okp941hqja",
-        "anrede": "Herr",
-        "company": "Firma",
-        "role": "Bauleiter",
-        "open": false,
-        "vorname": "Peter",
-        "nachname": "Pan",
-        "confirmDelete": false
-      },
-      {
-        "id": "mqja6kjnu5uf6u",
-        "anrede": "Herr",
-        "company": "",
-        "role": "",
-        "open": false,
-        "vorname": "Toni",
-        "nachname": "Sandberg",
-        "confirmDelete": false
-      },
-      {
-        "id": "mqja79jz6t0qbg",
-        "anrede": "Herr",
-        "company": "",
-        "role": "",
-        "open": false,
-        "vorname": "Dieter",
-        "nachname": "Claus",
-        "confirmDelete": false
-      },
-      {
-        "id": "mqjac8q66czj8u",
-        "anrede": "Herr",
-        "company": "Hohen ",
-        "role": "Läufer ",
-        "open": false,
-        "vorname": "Randal",
-        "nachname": "Kolo",
-        "confirmDelete": false
-      },
-      {
-        "id": "mqjaiijqx16vcu",
-        "anrede": "Herr",
-        "company": "Formens",
-        "role": "Zuhälter",
-        "open": false,
-        "vorname": "Lorenz",
-        "nachname": "Samir",
-        "confirmDelete": false
-      },
-      {
-        "id": "mqjb5tppzz3pq5",
+        "id": "mqjc1thp816egn",
         "anrede": "Frau",
-        "vorname": "Samira",
-        "nachname": "Sako",
-        "company": "Zuzu",
-        "role": "Lala",
+        "vorname": "Claudia",
+        "nachname": "Özelt",
+        "company": "DB InfraGO",
+        "role": "Projektleitung",
+        "open": false
+      },
+      {
+        "id": "mqjc1thpu9jsuo",
+        "anrede": "Herr",
+        "vorname": "Harald",
+        "nachname": "Joos",
+        "company": "DB InfraGO",
+        "role": "Projektleitung",
+        "open": false
+      },
+      {
+        "id": "mqjc1thprtqef1",
+        "anrede": "Frau",
+        "vorname": "Stefanie",
+        "nachname": "Wörndle",
+        "company": "DB InfraGo",
+        "role": "Projektleitung",
+        "open": false
+      },
+      {
+        "id": "mqjc1thp1jxoaf",
+        "anrede": "Frau",
+        "vorname": "Barbara",
+        "nachname": "Erney",
+        "company": "Voessing",
+        "role": "Bauüberwachung",
+        "open": false
+      },
+      {
+        "id": "mqjc1thpskcw3i",
+        "anrede": "Herr",
+        "vorname": "Hermann",
+        "nachname": "Zacher",
+        "company": "BGebauer",
+        "role": "Bauüberwachung",
+        "open": false
+      },
+      {
+        "id": "mqjc1thp9j2op3",
+        "anrede": "Herr",
+        "vorname": "Florian",
+        "nachname": "Ebert",
+        "company": "Stutz",
+        "role": "Bauleitung",
+        "open": false
+      },
+      {
+        "id": "mqjc1thph9u5yn",
+        "anrede": "Herr",
+        "vorname": "Pafos",
+        "nachname": "Busch",
+        "company": "BEMO",
+        "role": "Bauleitung",
+        "open": false
+      },
+      {
+        "id": "mqjc1thpofllg0",
+        "anrede": "Herr",
+        "vorname": "Severin",
+        "nachname": "Wingender",
+        "company": "PTB Ingenieure",
+        "role": "UBÜ",
+        "open": false
+      },
+      {
+        "id": "mqjc1thpud9yx8",
+        "anrede": "Herr",
+        "vorname": "Ronny",
+        "nachname": "Eckert-Storch",
+        "company": "PTB Ingenieure",
+        "role": "UBÜ",
+        "open": false
+      },
+      {
+        "id": "mqjc1thp1gkutx",
+        "anrede": "Herr",
+        "vorname": "Mathis",
+        "nachname": "Kujat",
+        "company": "PTB Ingenieure",
+        "role": "UBÜ",
+        "open": false
+      },
+      {
+        "id": "mqjc1thpxf0jir",
+        "anrede": "Herr",
+        "vorname": "Mike",
+        "nachname": "Benneckenstein",
+        "company": "PTB Umwelt",
+        "role": "GaLa-Bauer",
+        "open": false
+      },
+      {
+        "id": "mqjc1thpluq886",
+        "anrede": "Herr",
+        "vorname": "Benjamin",
+        "nachname": "Dünnebier",
+        "company": "PTB Umwelt",
+        "role": "GaLa-Bauer",
+        "open": false
+      },
+      {
+        "id": "mqjc1thpg2wxkg",
+        "anrede": "Herr",
+        "vorname": "Marcel",
+        "nachname": "Beständig",
+        "company": "PTB Umwelt",
+        "role": "GaLa-Bauer",
+        "open": false
+      },
+      {
+        "id": "mqjc1thp6hvjqt",
+        "anrede": "Frau",
+        "vorname": "Nele",
+        "nachname": "Höhler",
+        "company": "DB InfraGO",
+        "role": "Projektleitung",
+        "open": false
+      },
+      {
+        "id": "mqjc1thp6jdb4o",
+        "anrede": "Herr",
+        "vorname": "Lukas",
+        "nachname": "Becker",
+        "company": "PTB Ingenieure",
+        "role": "UBÜ",
+        "open": false
+      },
+      {
+        "id": "mqjc1thpbq69d2",
+        "anrede": "Frau",
+        "vorname": "Judith",
+        "nachname": "Wiedmann",
+        "company": "PTB Ingenieure",
+        "role": "UBÜ",
+        "open": false
+      },
+      {
+        "id": "mqjc1thp3n2y7i",
+        "anrede": "Frau",
+        "vorname": "Leonie",
+        "nachname": "Barbe",
+        "company": "PTB Ingenieure",
+        "role": "UBÜ",
         "open": false
       }
     ]
