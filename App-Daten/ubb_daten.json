@@ -1,6 +1,6 @@
 {
   "backupVersion": 2,
-  "erstellt": "2026-06-17T12:53:16.805Z",
+  "erstellt": "2026-06-18T09:21:44.727Z",
   "app": "UBB Begehungsprotokoll",
   "storageKey": "ubb_html_app_04",
   "fotosEnthalten": false,
@@ -26,81 +26,36 @@
     ],
     "projects": [
       {
-        "id": "mqh08dnpaf723w",
+        "id": "mqj9lltla8okgy",
         "name": "Cornberger Tunnel",
-        "number": "",
-        "client": "DB InfraGO ",
-        "location": "Cornberger Tunnel, Strecke 3600",
-        "notes": "",
-        "distribution": [
-          {
-            "name": "Frau Özelt",
-            "company": "DB InfraGO ",
-            "role": "Projektleitung ",
-            "email": "Claudia.oezelt@deutschebahn.de"
-          }
-        ],
-        "standardParticipants": [
-          "mqggoatazqn06a"
-        ],
-        "open": false
-      },
-      {
-        "id": "mqi2m7r689j2u5",
-        "name": "Gerstungen",
         "number": "",
         "client": "",
         "location": "",
         "notes": "",
-        "distribution": [],
-        "standardParticipants": [
-          "mqggoatazqn06a"
+        "distribution": [
+          "mqjaiijqx16vcu"
         ],
+        "standardParticipants": [],
         "open": false
       }
     ],
     "inspections": [
       {
-        "id": "mqi2mv398mssbp",
-        "projectId": "mqh08dnpaf723w",
+        "id": "mqjaj4s6crc0e2",
+        "projectId": "mqj9lltla8okgy",
         "topic": "Baustellenbegehung",
-        "date": "2026-06-17",
-        "time": "14:52",
-        "weather": "23 °C, bedeckt, trocken, Wind 12 km/h",
+        "date": "2026-06-18",
+        "time": "11:21",
+        "weather": "26 °C, wolkenlos, trocken, Wind 9 km/h",
         "protocolLead": "Marvin Hohmann",
         "remark": "",
         "participants": [
-          "mqggoatazqn06a"
+          "mqj9okp941hqja",
+          "mqja6kjnu5uf6u",
+          "mqja79jz6t0qbg",
+          "mqj9l10golfpda"
         ],
-        "photos": [
-          {
-            "name": "image.jpg",
-            "data": "",
-            "caption": ""
-          }
-        ],
-        "findings": [],
-        "status": "offen"
-      },
-      {
-        "id": "mqi2nb3yceaznq",
-        "projectId": "mqi2m7r689j2u5",
-        "topic": "Baustellenbegehung",
-        "date": "2026-06-17",
-        "time": "14:52",
-        "weather": "23 °C, bedeckt, trocken, Wind 12 km/h",
-        "protocolLead": "Marvin Hohmann",
-        "remark": "",
-        "participants": [
-          "mqggoatazqn06a"
-        ],
-        "photos": [
-          {
-            "name": "image.jpg",
-            "data": "",
-            "caption": ""
-          }
-        ],
+        "photos": [],
         "findings": [],
         "status": "offen"
       }
@@ -112,6 +67,56 @@
       "workMail": "marvin.hohmann@ptb-ingenieure.de",
       "apiKeySaved": false
     },
-    "activeInspectionId": "mqi2nb3yceaznq"
+    "activeInspectionId": "mqjaj4s6crc0e2",
+    "contacts": [
+      {
+        "id": "mqj9l10golfpda",
+        "anrede": "Herr",
+        "name": "Testmann",
+        "company": "Testo",
+        "role": "Testperson",
+        "open": false
+      },
+      {
+        "id": "mqj9okp941hqja",
+        "anrede": "Herr",
+        "name": "Pan,Peter",
+        "company": "Firma",
+        "role": "Bauleiter",
+        "open": false
+      },
+      {
+        "id": "mqja6kjnu5uf6u",
+        "anrede": "",
+        "name": "Sandberg, Toni",
+        "company": "",
+        "role": "",
+        "open": false
+      },
+      {
+        "id": "mqja79jz6t0qbg",
+        "anrede": "",
+        "name": "Claus, Dieter",
+        "company": "",
+        "role": "",
+        "open": false
+      },
+      {
+        "id": "mqjac8q66czj8u",
+        "anrede": "Herr",
+        "name": "Peter",
+        "company": "Hohen ",
+        "role": "Läufer ",
+        "open": false
+      },
+      {
+        "id": "mqjaiijqx16vcu",
+        "anrede": "Herr",
+        "name": "Samir, Lorenz",
+        "company": "Formens",
+        "role": "Zuhälter",
+        "open": false
+      }
+    ]
   }
 }
