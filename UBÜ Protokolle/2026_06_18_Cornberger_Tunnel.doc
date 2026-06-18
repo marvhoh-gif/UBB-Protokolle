@@ -50,15 +50,15 @@
     <table class='meta-table'>
       <tr><td><b>Projekt/Bauvorhaben:</b></td><td>Cornberger Tunnel</td></tr>
       <tr><td><b>Themen:</b></td><td>Baustellenbegehung</td></tr>
-      <tr><td><b>Datum/Zeit:</b></td><td>2026-06-18 11:46</td></tr>
-      <tr><td><b>Ort/Raum/Strecke:</b></td><td></td></tr>
-      <tr><td><b>Anwesende/Teilnehmer:</b></td><td>Marvin Hohmann (PTB Ingenieurbüro Magdeburg GmbH)<br>Frau Sako (Zuzu)<br>Herr Pan (Firma)</td></tr>
+      <tr><td><b>Datum/Zeit:</b></td><td>2026-06-18 12:08</td></tr>
+      <tr><td><b>Ort/Raum/Strecke:</b></td><td>Cornberger Tunnel Strecke 3600</td></tr>
+      <tr><td><b>Anwesende/Teilnehmer:</b></td><td>Marvin Hohmann (PTB Ingenieure Magdeburg GmbH)</td></tr>
       <tr><td><b>Witterung bei Begehung:</b></td><td>27 °C, wolkenlos, trocken, Wind 10 km/h</td></tr>
       <tr><td><b>Protokollführung:</b></td><td>Marvin Hohmann</td></tr>
       <tr><td><b>Bemerkung:</b></td><td></td></tr>
     </table>
     <h3>1. Zusammenfassung:</h3>
-    <p>Die Firma PTB Ingenieurbüro Magdeburg GmbH wurde beauftragt das Projekt Cornberger Tunnel als umweltfachliche Bauüberwachung zu betreuen. Im Zuge dessen fand am 2026-06-18 eine umweltfachliche Begehung der Baustelle statt.</p>
+    <p>Die Firma PTB Ingenieure Magdeburg GmbH wurde beauftragt das Projekt Cornberger Tunnel als umweltfachliche Bauüberwachung zu betreuen. Im Zuge dessen fand am 2026-06-18 eine umweltfachliche Begehung der Baustelle statt.</p>
     <h3>2. Ergebnis:</h3>
     <div class='red'>Im Zuge der Begehung wurden keine umweltfachlichen Mängel festgestellt.</div>
     
@@ -72,6 +72,6 @@
       </tr>
     </table>
     <h3>Dieses Protokoll wurde verteilt an:</h3>
-    <table class='distribution-table'><tr><td>Herr Samir, Lorenz</td><td>Formens</td><td>Zuhälter</td></tr></table>
+    <table class='distribution-table'><tr><td>Herr Ebert, Florian</td><td>Stutz</td><td>Bauleitung</td></tr><tr><td>Herr Busch, Pafos</td><td>BEMO</td><td>Bauleitung</td></tr><tr><td>Frau Höhler, Nele</td><td>DB InfraGO</td><td>Projektleitung</td></tr><tr><td>Frau Erney, Barbara</td><td>Voessing</td><td>Bauüberwachung</td></tr><tr><td>Frau Özelt, Claudia</td><td>DB InfraGO</td><td>Projektleitung</td></tr><tr><td>Herr Joos, Harald</td><td>DB InfraGO</td><td>Projektleitung</td></tr><tr><td>Herr Zacher, Hermann</td><td>BGebauer</td><td>Bauüberwachung</td></tr><tr><td>Frau Wörndle, Stefanie</td><td>DB InfraGo</td><td>Projektleitung</td></tr></table>
     
   </body></html>
