@@ -1,6 +1,6 @@
 {
   "backupVersion": 2,
-  "erstellt": "2026-06-18T10:09:24.287Z",
+  "erstellt": "2026-07-10T08:17:31.055Z",
   "app": "UBB Begehungsprotokoll",
   "storageKey": "ubb_html_app_04",
   "fotosEnthalten": false,
@@ -47,20 +47,83 @@
           "mqgqovl8bg6kjw"
         ],
         "open": false
+      },
+      {
+        "id": "mr8tm7ksc6rpdc",
+        "name": "Erkundungsprogramm 2026, Bahnhof Schlüchtern",
+        "number": "",
+        "client": "DB InfraGo",
+        "location": "Bahnhof Schlüchtern, Strecke 3600",
+        "notes": "",
+        "distribution": [],
+        "standardParticipants": [],
+        "open": false
+      },
+      {
+        "id": "mren8zklb6tge4",
+        "name": "EÜ Unterhaun",
+        "number": "",
+        "client": "DB InfraGO ",
+        "location": "",
+        "notes": "",
+        "distribution": [],
+        "standardParticipants": [],
+        "open": false
       }
     ],
     "inspections": [
       {
-        "id": "mqjc77zqp3kpcx",
-        "projectId": "mqgqtep2z9058w",
-        "topic": "Baustellenbegehung",
-        "date": "2026-06-18",
-        "time": "12:08",
-        "weather": "27 °C, wolkenlos, trocken, Wind 10 km/h",
+        "id": "mrenbu2mjyq1pu",
+        "projectId": "mren8zklb6tge4",
+        "topic": "Begleitung von Arbeiten",
+        "date": "2026-07-10",
+        "time": "09:59",
+        "weather": "19 °C, leicht bewölkt, trocken, Wind 8 km/h",
         "protocolLead": "Marvin Hohmann",
-        "remark": "",
+        "remark": "Begleitung der ersten Vergrämungsmahd an der EÜ Unterhaun",
         "participants": [],
-        "photos": [],
+        "photos": [
+          {
+            "name": "TC_00351.jpeg",
+            "data": "",
+            "caption": ""
+          },
+          {
+            "name": "TC_00350.jpeg",
+            "data": "",
+            "caption": ""
+          },
+          {
+            "name": "TC_00349.jpeg",
+            "data": "",
+            "caption": ""
+          },
+          {
+            "name": "TC_00348.jpeg",
+            "data": "",
+            "caption": ""
+          },
+          {
+            "name": "TC_00347.jpeg",
+            "data": "",
+            "caption": ""
+          },
+          {
+            "name": "TC_00346.jpeg",
+            "data": "",
+            "caption": ""
+          },
+          {
+            "name": "TC_00345.jpeg",
+            "data": "",
+            "caption": ""
+          },
+          {
+            "name": "TC_00344.jpeg",
+            "data": "",
+            "caption": ""
+          }
+        ],
         "findings": [],
         "status": "offen"
       }
@@ -72,7 +135,7 @@
       "privateMail": "",
       "workMail": ""
     },
-    "activeInspectionId": null,
+    "activeInspectionId": "mrenbu2mjyq1pu",
     "contacts": [
       {
         "id": "mqjc1thp816egn",
